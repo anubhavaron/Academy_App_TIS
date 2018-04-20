@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pc.academy_app_tis.MainActivity"
+    android:background="@drawable/books_simple"
+    >
+
+
+    <TextView
+        android:id="@+id/tis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:text="Tis"
+        android:textStyle="bold"
+        android:textSize="80dp"
+        android:textColor="#c85a17"
+        android:fontFamily="cursive"
+        android:shadowColor="#b6b6b4"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Destination to Success"
+        android:textColor="#dc381f"
+        android:layout_below="@+id/tis"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="casual"/>
+
+</RelativeLayout>
