@@ -2,6 +2,7 @@ package com.example.pc.academy_app_tis;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,7 +68,7 @@ public class login_signup extends AppCompatActivity {
         {
             status=3;
         }
-        
+
 
         new Background_login().execute();
 
@@ -112,8 +113,8 @@ public class login_signup extends AppCompatActivity {
                 {
                     Toast.makeText(login_signup.this,"ho gya",Toast.LENGTH_SHORT).show();
 
-                    /*Intent intent=new Intent(login_signup.this,teacher_navigation_drawer.class);
-                    startActivity(intent);*/
+                    Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
+                    startActivity(intent);
 
                 }
                 else
