@@ -81,7 +81,7 @@ public class login_signup extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String JSON_STRING) {
-        Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
             JSONObject jsonObject;
             JSONArray jsonArray;
@@ -111,7 +111,7 @@ public class login_signup extends AppCompatActivity {
 
                 if((flag)&&(status==1))
                 {
-                    Toast.makeText(login_signup.this,"ho gya",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(login_signup.this,"ho gya",Toast.LENGTH_SHORT).show();
 
                     Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
                     startActivity(intent);
