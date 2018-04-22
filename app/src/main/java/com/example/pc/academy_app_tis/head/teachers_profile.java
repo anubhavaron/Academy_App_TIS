@@ -3,11 +3,14 @@ package com.example.pc.academy_app_tis.head;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
@@ -41,6 +44,15 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(teachers_profile.this);
+                View mView=getLayoutInflater().inflate(R.layout.dialog_add_teacher,null);
+
+
+                mBuilder.setView(mView);
+                AlertDialog dialog=mBuilder.create();
+                dialog.show();
+
 
             }
         });
