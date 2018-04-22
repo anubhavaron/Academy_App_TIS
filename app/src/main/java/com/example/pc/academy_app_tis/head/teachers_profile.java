@@ -1,7 +1,11 @@
 package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
@@ -34,6 +40,13 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
     teachers_profile_adapter adapter;
     Context context;
     FloatingActionButton floatingActionButton;
+    private final int IMG_REQUEST=1;
+    TextView t_name;
+    TextView t_description;
+    ImageView t_imageView;
+    Button t_button;
+    Bitmap bitmap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,22 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
 
                 final AlertDialog.Builder mBuilder=new AlertDialog.Builder(teachers_profile.this);
                 View mView=getLayoutInflater().inflate(R.layout.dialog_add_teacher,null);
+                t_name=(TextView)mView.findViewById(R.id.name_10);
+                t_description=(TextView)mView.findViewById(R.id.description_10);
+                t_imageView=(ImageView)mView.findViewById(R.id.imageView_10);
+                t_button=(Button) mView.findViewById(R.id.button_10);
+                t_imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectImage();
+                    }
+                });
+                t_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        t_button.setEnabled(false);
+                    }
+                });
 
 
                 mBuilder.setView(mView);
@@ -60,6 +89,34 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
 
         Background_getting_teachers background_getting_teachers=new Background_getting_teachers();
         background_getting_teachers.execute();
+    }
+
+
+
+    private void selectImage()
+    {
+        Intent intent=new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,IMG_REQUEST);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if((requestCode==IMG_REQUEST)&&(resultCode==RESULT_OK)&&(data!=null))
+        {
+            Uri path=data.getData();
+            try {
+                bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(),path);
+                t_imageView.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
