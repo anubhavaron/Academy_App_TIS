@@ -1,5 +1,6 @@
 package com.example.pc.academy_app_tis.head;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -80,7 +81,14 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
 
     @Override
     public void onClick(int x) {
-        Toast.makeText(Head_Batch.this,x+"",Toast.LENGTH_LONG).show();
+        //Toast.makeText(Head_Batch.this,x+"",Toast.LENGTH_LONG).show();
+        Intent intent=new Intent(Head_Batch.this,head_navigation.class);
+        intent.putExtra("batch_subject", batch_subject[x]);
+        intent.putExtra("batch_class", batch_class[x]);
+        intent.putExtra("batch_number", batch_number[x]);
+
+        startActivity(intent);
+
 
     }
 
