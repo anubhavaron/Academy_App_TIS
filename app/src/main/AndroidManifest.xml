@@ -34,6 +34,7 @@
         <activity
             android:name=".head.Head_Batch"
             android:label="Batches" />
+        <activity android:name=".head.teachers_profile"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -147,6 +148,11 @@ public class head_navigation extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+
+            Intent i=new Intent(head_navigation.this,teachers_profile.class);
+            startActivity(i);
+
+
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -180,7 +186,7 @@ public class head_navigation extends AppCompatActivity
         protected void onPostExecute(String JSON_STRING) {
             JSONObject jsonObject;
             JSONArray jsonArray;
-            Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
 
