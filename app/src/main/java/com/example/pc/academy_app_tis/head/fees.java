@@ -2,6 +2,8 @@ package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,7 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
     String amount[];
     RecyclerView recyclerView;
     fees_adapter f_adapter;
+    FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -65,6 +69,11 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
         num=(TextView)findViewById(R.id.number_12);
         button=(Button)findViewById(R.id.previous_fees_12);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_12);
+        floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_12);
+
+
+
+
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -84,6 +93,44 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
             public void onClick(View v) {
                 Background_getting_previousfees background_getting_previousfees=new Background_getting_previousfees();
                 background_getting_previousfees.execute();
+            }
+        });
+
+
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(fees.this);
+                View mView=getLayoutInflater().inflate(R.layout.dialog_adding_fees,null);
+                final EditText sub=(EditText)mView.findViewById(R.id.start_date_14);
+                final EditText cl=(EditText)mView.findViewById(R.id.end_date_14);
+                final EditText n=(EditText)mView.findViewById(R.id.amount_14);
+                final Button add=(Button)mView.findViewById(R.id.add_14);
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        add.setEnabled(false);
+
+                       /* Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
+
+                        background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());
+
+
+                        */
+                        Background_getting_previousfees background_getting_previousfees=new Background_getting_previousfees();
+                        background_getting_previousfees.execute();
+
+                    }
+                });
+                mBuilder.setView(mView);
+                AlertDialog dialog=mBuilder.create();
+                dialog.show();
+
+
+
+
             }
         });
 

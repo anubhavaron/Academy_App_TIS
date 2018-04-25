@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Date"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="Enter Start Date Here"
+        android:textColorHint="#000000"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:textSize="13dp"
+        android:paddingLeft="20dp"
+        android:id="@+id/start_date_14"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/end_date_14"
+        android:hint="Enter End Date Here"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:textSize="13dp"
+        android:paddingLeft="20dp"
+        android:textColorHint="#000000"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:padding="4dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="Enter Amount Here"
+        android:id="@+id/amount_14"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:textSize="13dp"
+        android:paddingLeft="20dp"
+        android:textColorHint="#000000"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Fees"
+        android:background="@color/colorPrimary"
+        android:textColorHint="#000000"
+        android:id="@+id/add_14"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        />
+
+
+
+</LinearLayout>
