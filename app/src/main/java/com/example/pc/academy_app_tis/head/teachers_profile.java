@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
 
 import org.json.JSONArray;
@@ -26,12 +33,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class teachers_profile extends AppCompatActivity implements teachers_profile_adapter.teachers_profile_adapterOnClickHandler {
     String name[];
@@ -46,6 +56,7 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
     ImageView t_imageView;
     Button t_button;
     Bitmap bitmap;
+    private String UploadUrl="https://tisabcd12.000webhostapp.com/head/Adding_teacher.php";
 
 
     @Override
@@ -74,6 +85,8 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
                     @Override
                     public void onClick(View v) {
                         t_button.setEnabled(false);
+                        t_button.setVisibility(View.GONE);
+                        uploadImage();
                     }
                 });
 
@@ -118,6 +131,87 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         }
 
     }
+
+
+
+
+
+
+    private void uploadImage()
+    {
+
+
+
+        StringRequest stringRequest =new StringRequest(Request.Method.POST,UploadUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject=new JSONObject(response);
+                            String Response=jsonObject.getString("response");
+                            Toast.makeText(teachers_profile.this,Response,Toast.LENGTH_SHORT).show();
+                            Background_getting_teachers background_getting_teachers=new Background_getting_teachers();
+                            background_getting_teachers.execute();
+                           /* Intent i=new Intent(teachers_profile.this,teachers_profile.class);
+                            startActivity(i);*/
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(teachers_profile.this,"Error",Toast.LENGTH_SHORT).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String , String> getParams() throws AuthFailureError
+            {
+                Map<String,String> params=new HashMap<>();
+                params.put("name",t_name.getText().toString().trim());
+                params.put("description",t_description.getText().toString().trim());
+
+                params.put("image",imageToSTring(bitmap));
+                return params;
+
+
+            }
+        };
+        MySingleton.getInstance(teachers_profile.this).addToRequestQueue(stringRequest);
+    }
+
+
+    private String imageToSTring(Bitmap bitmap)
+    {
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte[] imgBytes=byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imgBytes,Base64.DEFAULT);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onClick(int x) {

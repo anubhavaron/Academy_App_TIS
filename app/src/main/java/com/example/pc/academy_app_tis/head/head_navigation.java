@@ -155,6 +155,8 @@ public class head_navigation extends AppCompatActivity
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent i=new Intent(head_navigation.this,fees.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_slideshow) {
 
