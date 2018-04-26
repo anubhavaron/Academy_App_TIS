@@ -113,12 +113,12 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
                     public void onClick(View v) {
                         add.setEnabled(false);
 
-                       /* Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
+                        Background_add_fees background_add_fee=new Background_add_fees(fees.this);
 
-                        background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());
+                       background_add_fee.execute(head_navigation.batch_subject,head_navigation.batch_class,head_navigation.batch_number,autoCompleteTextView.getText().toString(),sub.getText().toString(),cl.getText().toString(),n.getText().toString());
 
 
-                        */
+
                         Background_getting_previousfees background_getting_previousfees=new Background_getting_previousfees();
                         background_getting_previousfees.execute();
 
