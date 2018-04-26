@@ -36,7 +36,6 @@
             android:label="Batches" />
         <activity android:name=".head.teachers_profile" />
         <activity android:name=".head.fees" />
-        <activity android:name=".head.Wall_of_fame_head"></activity>
     </application>
 
 </manifest>
