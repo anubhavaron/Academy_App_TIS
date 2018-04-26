@@ -40,7 +40,8 @@
         <activity
             android:name=".teacher.Teacher_navigation"
             android:label="@string/title_activity_teacher_navigation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".teacher.Teachers_students"></activity>
     </application>
 
 </manifest>
