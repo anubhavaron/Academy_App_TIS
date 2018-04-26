@@ -136,9 +136,9 @@ public class Teacher_navigation extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.wall_of_fame_teacher) {
+            Intent i=new Intent(Teacher_navigation.this,Teachers_Wall_Of_Fame.class);
+            startActivity(i);
 
         }
 
