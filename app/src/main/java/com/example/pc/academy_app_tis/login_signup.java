@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.pc.academy_app_tis.teacher.Teacher_batch;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,7 +113,7 @@ public class login_signup extends AppCompatActivity {
 
                 if((flag)&&(status==1))
                 {
-                    //Toast.makeText(login_signup.this,"ho gya",Toast.LENGTH_SHORT).show();
+                    //
 
                     Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
                     startActivity(intent);
@@ -119,9 +121,9 @@ public class login_signup extends AppCompatActivity {
                 }
                 else
                 if((flag)&&(status==2))
-                {
-                    /*Intent intent=new Intent(login_signup.this,Teachers_batches.class);
-                    startActivity(intent);*/
+                {   Toast.makeText(login_signup.this,"teacher_login",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(login_signup.this,Teacher_batch.class);
+                    startActivity(intent);
 
                 }
                 else

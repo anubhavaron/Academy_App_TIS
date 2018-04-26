@@ -1,4 +1,4 @@
-package com.example.pc.academy_app_tis.head;
+package com.example.pc.academy_app_tis.teacher;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.head.Background_add_batch;
+import com.example.pc.academy_app_tis.head.Head_Batch;
+import com.example.pc.academy_app_tis.head.Head_Batch_Adapter;
+import com.example.pc.academy_app_tis.head.head_navigation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,62 +31,49 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.Head_Batch_AdapterOnClickHandler {
+public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapter.Head_Batch_AdapterOnClickHandler {
+
+
     RecyclerView recyclerView;
     Head_Batch_Adapter adapter;
     String batch_subject[];
     String batch_class[];
     String batch_number[];
-    FloatingActionButton floatingActionButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_head__batch);
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_3);
+        setContentView(R.layout.activity_teacher_batch);
+        recyclerView=(RecyclerView)findViewById(R.id.recycler_21);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter=new Head_Batch_Adapter(Head_Batch.this);
-        floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_3);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(Head_Batch.this);
-                View mView=getLayoutInflater().inflate(R.layout.dialog_batch_adding,null);
-                final EditText sub=(EditText)mView.findViewById(R.id.subject_5);
-                final EditText cl=(EditText)mView.findViewById(R.id.class_5);
-                final EditText n=(EditText)mView.findViewById(R.id.batch_5);
-                final Button add=(Button)mView.findViewById(R.id.add_5);
-                add.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        add.setEnabled(false);
+        adapter=new Head_Batch_Adapter(Teacher_batch.this);
 
-                        Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
-
-                        background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());
-                        Background_batch_details background_batch_details=new Background_batch_details();
-                        background_batch_details.execute();
-
-                    }
-                });
-                mBuilder.setView(mView);
-                AlertDialog dialog=mBuilder.create();
-                dialog.show();
-            }
-        });
 
 
         recyclerView.setAdapter(adapter);
-        Background_batch_details background_batch_details=new Background_batch_details();
+        Teacher_batch.Background_batch_details background_batch_details=new Teacher_batch.Background_batch_details();
         background_batch_details.execute();
-
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onClick(int x) {
-        //Toast.makeText(Head_Batch.this,x+"",Toast.LENGTH_LONG).show();
-        Intent intent=new Intent(Head_Batch.this,head_navigation.class);
+        Toast.makeText(Teacher_batch.this,x+"",Toast.LENGTH_LONG).show();
+        Intent intent=new Intent(Teacher_batch.this,Teacher_navigation.class);
         intent.putExtra("batch_subject", batch_subject[x]);
         intent.putExtra("batch_class", batch_class[x]);
         intent.putExtra("batch_number", batch_number[x]);
@@ -92,7 +83,18 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
 
     }
 
-    public class Background_batch_details extends AsyncTask<Void,Void,String>
+
+
+
+
+
+
+
+
+
+
+
+    class Background_batch_details extends AsyncTask<Void,Void,String>
     {   String json_url="https://tisabcd12.000webhostapp.com/head/batches_details.php";
 
         @Override
@@ -104,7 +106,7 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
 
         @Override
         protected void onPostExecute(String JSON_STRING) {
-                JSONObject  jsonObject;
+            JSONObject jsonObject;
             JSONArray jsonArray;
 
 

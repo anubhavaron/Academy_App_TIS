@@ -36,6 +36,11 @@
             android:label="Batches" />
         <activity android:name=".head.teachers_profile" />
         <activity android:name=".head.fees" />
+        <activity android:name=".teacher.Teacher_batch" />
+        <activity
+            android:name=".teacher.Teacher_navigation"
+            android:label="@string/title_activity_teacher_navigation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
