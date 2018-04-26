@@ -41,7 +41,8 @@
             android:name=".teacher.Teacher_navigation"
             android:label="@string/title_activity_teacher_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".teacher.Teachers_students"></activity>
+        <activity android:name=".teacher.Teachers_students" />
+        <activity android:name=".head.Wall_of_fame_head"></activity>
     </application>
 
 </manifest>

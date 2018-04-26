@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ECEFF1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_people_black_24dp"
+                android:layout_gravity="center"
+                android:id="@+id/imageView_24"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter TITLE "
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_margin="2dp"
+
+                android:layout_marginLeft="10dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="15dp"
+                android:hint="title_here"
+                android:paddingRight="10dp"
+                android:textColorHint="#000000"
+                android:paddingLeft="20dp"
+                android:id="@+id/name_24"
+                android:textColor="#000000"
+
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Description "
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/description_24"
+                android:textSize="15dp"
+                android:paddingRight="10dp"
+                android:hint="Description here"
+                android:textColorHint="#000000"
+
+                android:textColor="#000000"
+
+                android:layout_margin="2dp"
+                android:layout_marginLeft="10dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/button_24"
+                android:textColor="#ffffff"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

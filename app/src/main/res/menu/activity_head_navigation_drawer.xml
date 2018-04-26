@@ -12,6 +12,10 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/money"
             android:title="Fees" />
+        <item
+            android:id="@+id/wall_of_fame"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Wall Of Fame" />
 
 
     </group>

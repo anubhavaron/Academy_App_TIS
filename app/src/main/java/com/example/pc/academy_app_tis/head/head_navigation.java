@@ -260,6 +260,12 @@ public class head_navigation extends AppCompatActivity
             startActivity(i);
 
         }
+        else
+            if(id==R.id.wall_of_fame)
+            {
+                Intent i=new Intent(head_navigation.this,Wall_of_fame_head.class);
+                startActivity(i);
+            }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
