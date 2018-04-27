@@ -132,7 +132,10 @@ public class Teacher_navigation extends AppCompatActivity
 
         } else if (id == R.id.nav_gallery) {
 
+
         } else if (id == R.id.nav_slideshow) {
+            Intent i=new Intent(Teacher_navigation.this,Teacher_new_test.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_manage) {
 
