@@ -2,12 +2,19 @@ package com.example.pc.academy_app_tis.teacher;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.head.Background_add_batch;
+import com.example.pc.academy_app_tis.head.Head_Batch;
 import com.example.pc.academy_app_tis.head.Students_details_adapter;
 import com.example.pc.academy_app_tis.head.head_navigation;
 
@@ -28,6 +35,7 @@ public class Teacher_new_test extends AppCompatActivity implements  new_test_ada
     String test_marks[];
     new_test_adapter adapter;
     RecyclerView recyclerView;
+    FloatingActionButton floatingActionButton;
     Context context;
 
     @Override
@@ -35,6 +43,36 @@ public class Teacher_new_test extends AppCompatActivity implements  new_test_ada
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_new_test);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_29);
+        floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_29);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(Teacher_new_test.this);
+                View mView=getLayoutInflater().inflate(R.layout.dialog_new_test,null);
+                final EditText sub=(EditText)mView.findViewById(R.id.test_name_31);
+                final EditText cl=(EditText)mView.findViewById(R.id.marks_31);
+
+                final Button add=(Button)mView.findViewById(R.id.add_31);
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        add.setEnabled(false);
+                        Background_new_test_add background_new_test_add=new Background_new_test_add(Teacher_new_test.this);
+                        background_new_test_add.execute(Teacher_navigation.batch_subject,Teacher_navigation.batch_class,Teacher_navigation.batch_number,sub.getText().toString(),cl.getText().toString());
+                        new Background_test_info().execute();
+
+                   /*     Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
+
+                        background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());*/
+
+
+                    }
+                });
+                mBuilder.setView(mView);
+                AlertDialog dialog=mBuilder.create();
+                dialog.show();
+            }
+        });
         context=getApplicationContext();
         new Background_test_info().execute();
     }
