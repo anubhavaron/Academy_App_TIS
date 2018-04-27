@@ -137,9 +137,7 @@ public class Teacher_navigation extends AppCompatActivity
             Intent i=new Intent(Teacher_navigation.this,Teacher_new_test.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.wall_of_fame_teacher) {
+        }  else if (id == R.id.wall_of_fame_teacher) {
             Intent i=new Intent(Teacher_navigation.this,Teachers_Wall_Of_Fame.class);
             startActivity(i);
 
