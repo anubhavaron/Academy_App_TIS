@@ -29,7 +29,7 @@
         <activity android:name=".login_signup" />
         <activity
             android:name=".head.head_navigation"
-            android:label="@string/title_activity_head_navigation"
+            android:label="STUDENTS"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".head.Head_Batch"

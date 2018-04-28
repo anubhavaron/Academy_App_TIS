@@ -16,6 +16,8 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.pc.academy_app_tis.R;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by pc on 4/22/2018.
  */
@@ -24,6 +26,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
 
 
     String name[];
+
 
 
 
@@ -66,6 +69,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
                 .override(100, 100) // resizing
         //.centerCrop()
         .into(holder.imageView);
+        holder.number.setText((position+1)+".");
 
     }
 
@@ -84,6 +88,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
     {
         TextView textView;
         ImageView imageView;
+        TextView number;
 
         public NUMBERVIEWHOLDER(View view)
 
@@ -91,6 +96,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
 
             super(view);
             textView=(TextView)view.findViewById(R.id.textView_7);
+            number=(TextView)view.findViewById(R.id.number_7);
             imageView=(ImageView) view.findViewById(R.id.imageView_7);
 
 
