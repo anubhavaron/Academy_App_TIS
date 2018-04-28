@@ -9,9 +9,9 @@
     android:orientation="vertical">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="180dp"
 
-        android:src="@drawable/logo_tis"
+        android:src="@drawable/untitled"
         android:scaleType="fitXY"
         android:layout_gravity="center"/>
     <View
@@ -26,8 +26,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/radiogroup"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:gravity="center"
+        android:background="@drawable/atirek_soft_edge"
 
         >
 
@@ -38,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Head"
+            android:textStyle="bold"
             android:textColor="#000000"
             android:layout_marginLeft="15dp"
             android:buttonTint="#000000"
@@ -47,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:text="Teacher"
             android:textColor="#000000"
@@ -58,6 +65,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:text="Student/Parent"
             android:buttonTint="#000000"
             android:textColor="#000000"/>
@@ -65,47 +73,54 @@
     </RadioGroup>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:textColor="#000000"
-        android:textSize="14dp"
+        android:layout_height="35dp"
+        android:textColor="#0b4d89"
         android:textStyle="bold"
+        android:textSize="16dp"
+
         android:text="Enter Username"
-        android:layout_marginTop="4dp"
+
+
+        android:layout_marginTop="18dp"
         android:padding="5dp"
         />
     <EditText
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
-        android:textColor="#000000"
+        android:textColor="#664901"
+        android:backgroundTint="#005eb2"
         android:textColorHint="#000000"
         android:gravity="center"
         android:paddingRight="10dp"
         android:textSize="18dp"
-        android:hint="Enter USERNAME Here"
+
         android:id="@+id/username_2"/>
     <TextView
     android:layout_width="match_parent"
-    android:layout_height="25dp"
-    android:textColor="#000000"
-    android:textSize="14dp"
-    android:textStyle="bold"
+    android:layout_height="35dp"
+        android:textColor="#0b4d89"
+        android:textStyle="bold"
+
+    android:textSize="16dp"
+
         android:layout_marginTop="5dp"
     android:text="Enter Password"
     android:padding="5dp"
     />
     <EditText
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
-        android:textColor="#000000"
+        android:textColor="#664901"
         android:textColorHint="#000000"
+       android:backgroundTint="#005eb2"
         android:gravity="center"
         android:paddingRight="10dp"
         android:textSize="18dp"
-        android:hint="Enter USERNAME Here"
+
         android:id="@+id/password_2"/>
 
     <Button
@@ -113,10 +128,10 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:text="LOGIN"
-        android:layout_marginLeft="120dp"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:id="@+id/login_2"
-        android:background="#00695C"
+        android:background="#003f77"
         android:textColor="#ffffff"
         android:onClick="LOGIN"
 
@@ -126,11 +141,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CHANGE PASSWORD ?"
-        android:textSize="18dp"
+        android:textSize="14dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dp"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        android:layout_marginLeft="90dp"
+        android:textColor="#003f77"
+
+
         android:id="@+id/change_password_2"
         />
 

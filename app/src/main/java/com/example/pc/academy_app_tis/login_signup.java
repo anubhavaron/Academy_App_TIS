@@ -29,7 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-public class login_signup extends AppCompatActivity {
+public class login_signup extends Activity {
     int status;
     String username;
     String password;
@@ -48,8 +48,8 @@ public class login_signup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
 
-        actionBar=getSupportActionBar();
-        actionBar.setTitle(Html.fromHtml("<font color='#000000'>ActionBartitle </font>"));
+       // actionBar=getSupportActionBar();
+        //actionBar.setTitle(Html.fromHtml("<font color='#000000'>ActionBartitle </font>"));
         radioGroup=(RadioGroup)findViewById(R.id.radiogroup);
         userName=(EditText)findViewById(R.id.username_2);
         passWord=(EditText)findViewById(R.id.password_2);
