@@ -45,7 +45,8 @@
         <activity android:name=".head.Wall_of_fame_head" />
         <activity android:name=".teacher.Teachers_Wall_Of_Fame" />
         <activity android:name=".teacher.Teacher_new_test" />
-        <activity android:name=".teacher.Test_Record"></activity>
+        <activity android:name=".teacher.Test_Record" />
+        <activity android:name=".teacher.Teacher_feed"></activity>
     </application>
 
 </manifest>
