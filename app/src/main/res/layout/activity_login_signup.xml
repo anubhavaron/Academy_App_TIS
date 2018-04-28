@@ -5,14 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.pc.academy_app_tis.login_signup"
-    android:background="#CFD8DC"
+    android:background="#f3ffdb"
     android:orientation="vertical">
     <ImageView
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:src="@drawable/logo"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+
+        android:src="@drawable/logo_tis"
+        android:scaleType="fitXY"
         android:layout_gravity="center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000"/>
 
     <RadioGroup
 

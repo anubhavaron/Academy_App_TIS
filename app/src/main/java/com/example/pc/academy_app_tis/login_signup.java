@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -37,7 +39,7 @@ public class login_signup extends AppCompatActivity {
     EditText userName;
     EditText passWord;
     Context context;
-
+    ActionBar actionBar;
     public login_signup() throws ExecutionException, InterruptedException {
     }
 
@@ -45,6 +47,9 @@ public class login_signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
+
+        actionBar=getSupportActionBar();
+        actionBar.setTitle(Html.fromHtml("<font color='#000000'>ActionBartitle </font>"));
         radioGroup=(RadioGroup)findViewById(R.id.radiogroup);
         userName=(EditText)findViewById(R.id.username_2);
         passWord=(EditText)findViewById(R.id.password_2);
