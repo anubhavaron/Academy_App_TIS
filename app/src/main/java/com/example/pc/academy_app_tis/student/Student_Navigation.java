@@ -22,6 +22,7 @@ import com.example.pc.academy_app_tis.head.Head_Batch;
 
 public class Student_Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    static String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class Student_Navigation extends AppCompatActivity
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         Toast.makeText(Student_Navigation.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
+
+        username=pref.getString("username", null);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +53,9 @@ public class Student_Navigation extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
 
     @Override
@@ -102,16 +108,14 @@ public class Student_Navigation extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            Intent i=new Intent(Student_Navigation.this,student_batch.class);
+            startActivity(i);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 

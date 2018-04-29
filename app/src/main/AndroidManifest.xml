@@ -52,7 +52,9 @@
         <activity
             android:name=".student.Student_Navigation"
             android:label="@string/title_activity_student__navigation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".student.student_batch" />
+        <activity android:name=".student.student_fees_activity"></activity>
     </application>
 
 </manifest>
