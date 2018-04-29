@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,8 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
     RecyclerView recyclerView;
     fees_adapter f_adapter;
     FloatingActionButton floatingActionButton;
+    LinearLayout linearLayout;
+    View view;
 
 
     @Override
@@ -70,6 +73,9 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
         button=(Button)findViewById(R.id.previous_fees_12);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_12);
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_12);
+        linearLayout=(LinearLayout)findViewById(R.id.ll);
+        view=(View)findViewById(R.id.lll);
+
 
 
 
@@ -91,6 +97,8 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                linearLayout.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
                 Background_getting_previousfees background_getting_previousfees=new Background_getting_previousfees();
                 background_getting_previousfees.execute();
             }

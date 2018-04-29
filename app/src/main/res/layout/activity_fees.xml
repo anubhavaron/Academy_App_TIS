@@ -15,88 +15,170 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/halke"
     tools:context="com.example.pc.academy_app_tis.head.fees">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textSize="17dp"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:gravity="center"
+                android:textStyle="bold"
+                android:paddingLeft="30dp"
                 android:layout_gravity="center"
 
-                android:text="Subject :"/>
+                android:text="Subject "/>
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:paddingRight="50dp"
+                    android:text="-"
+                    android:textStyle="bold"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/subject_12"
                 android:textColor="#000000"
-                android:gravity="center"
+                android:textSize="17dp"
                 android:layout_gravity="center"
                 android:text="Subject :"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.7"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:paddingLeft="30dp"
+                android:textSize="17dp"
                 android:layout_gravity="center"
-
+                android:textStyle="bold"
                 android:textColor="#000000"
                 android:text="Class:"/>
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:paddingRight="50dp"
+                    android:text="-"
+                    android:textStyle="bold"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/class_12"
                 android:textColor="#000000"
-                android:gravity="center"
+                android:textSize="17dp"
                 android:layout_gravity="center"
                 android:text="Subject :"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:paddingLeft="30dp"
                 android:layout_gravity="center"
-
+                android:textSize="17dp"
+                android:textStyle="bold"
                 android:textColor="#000000"
-                android:text="Number :"/>
+                android:text="Number "/>
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:paddingRight="50dp"
+                    android:text="-"
+                    android:textStyle="bold"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:id="@+id/number_12"
-                android:gravity="center"
+                android:textSize="17dp"
                 android:layout_gravity="center"
                 android:text="Subject :"/>
+            </LinearLayout>
 
         </LinearLayout>
 
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:hint="Enter Student Name"
-            android:textColorHint="#000000"
+            android:textColorHint="@color/blue_dark"
             android:id="@+id/student_name_12"
+            android:textColor="#664901"
+            android:backgroundTint="@color/blue_dark"
             android:padding="15dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Previous Fees"
             android:textColorHint="#000000"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#000000"
+            android:background="@color/blue_dark"
+            android:textColor="#ffffff"
             android:padding="5dp"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
             android:id="@+id/previous_fees_12"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/ll"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="START DATE"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="END DATE"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:text="AMOUNT"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            android:visibility="gone"
+            android:id="@+id/lll"/>
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="200dp"

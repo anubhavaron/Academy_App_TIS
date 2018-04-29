@@ -3,6 +3,7 @@ package com.example.pc.academy_app_tis;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.pc.academy_app_tis.student.Student_Navigation;
 import com.example.pc.academy_app_tis.teacher.Teacher_batch;
 
 import org.json.JSONArray;
@@ -71,8 +73,8 @@ public class login_signup extends Activity {
         {
             status=2;
         }
-        if(head_teacher_parent_student.equals("Student"))
-        {
+        if(head_teacher_parent_student.equals("Student/Parent"))
+        {   head_teacher_parent_student="Student";
             status=3;
         }
 
@@ -119,6 +121,13 @@ public class login_signup extends Activity {
                 if((flag)&&(status==1))
                 {
                     //
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+
+                    editor.putBoolean("is", true);
+                    editor.putString("h_t_s","Head");
+                    editor.apply();
+                    Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
 
                     Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
                     startActivity(intent);
@@ -127,6 +136,14 @@ public class login_signup extends Activity {
                 else
                 if((flag)&&(status==2))
                 {   Toast.makeText(login_signup.this,"teacher_login",Toast.LENGTH_SHORT).show();
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+
+                    editor.putBoolean("is", true);
+                    editor.putString("h_t_s","Teacher");
+                    editor.apply();
+                    Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
+
                     Intent intent=new Intent(login_signup.this,Teacher_batch.class);
                     startActivity(intent);
 
@@ -135,15 +152,17 @@ public class login_signup extends Activity {
                 if((flag)&&(status==3))
                 {
 
-                    /*Intent intent=new Intent(login_signup.this,students.students_batches.class);
-                    startActivity(intent);*/
-                }
-                else
-                if((flag)&&(status==4))
-                {
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
 
-                    /*Intent intent=new Intent(login_signup.this,students.students_batches.class);
-                    startActivity(intent);*/
+                    editor.putBoolean("is", true);
+                    editor.putString("h_t_s","Student");
+                    editor.putString("username",username);
+                    editor.apply();
+                    Toast.makeText(login_signup.this,"bhbhjbh",Toast.LENGTH_LONG).show();
+
+                    Intent intent=new Intent(login_signup.this,Student_Navigation.class);
+                    startActivity(intent);
                 }
                 else
                 {

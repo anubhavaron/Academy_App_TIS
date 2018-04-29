@@ -2,8 +2,14 @@ package com.example.pc.academy_app_tis;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.example.pc.academy_app_tis.head.Head_Batch;
+import com.example.pc.academy_app_tis.student.Student_Navigation;
+import com.example.pc.academy_app_tis.teacher.Teacher_batch;
 
 public class MainActivity extends Activity {
 
@@ -13,25 +19,49 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        Thread myThread = new Thread() {
-            @Override
-            public void run() {
-                try {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
-                    sleep(2500);
 
-                    Intent intent=new Intent(MainActivity.this,login_signup.class);
+        boolean flag = pref.getBoolean("is", false);  // getting boolean
+        Toast.makeText(MainActivity.this, flag + "", Toast.LENGTH_LONG).show();
+        if (flag == true) {
 
-                    startActivity(intent);
-                    finish();
-
-                } catch (InterruptedException e) {
-
-                    e.printStackTrace();
-                }
-
+            String h_t_s = pref.getString("h_t_s", null);
+            if (h_t_s.equals("Head")) {
+                Intent i = new Intent(MainActivity.this, Head_Batch.class);
+                startActivity(i);
+            } else if (h_t_s.equals("Teacher")) {
+                Intent i = new Intent(MainActivity.this, Teacher_batch.class);
+                startActivity(i);
+            } else if (h_t_s.equals("Student")) {
+                Intent i = new Intent(MainActivity.this, Student_Navigation.class);
+                startActivity(i);
             }
-        };
-        myThread.start();
+        }else {
+
+
+                Thread myThread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            sleep(2500);
+
+                            Intent intent = new Intent(MainActivity.this, login_signup.class);
+
+                            startActivity(intent);
+                            finish();
+
+                        } catch (InterruptedException e) {
+
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+                myThread.start();
+            }
+        }
     }
-}
+

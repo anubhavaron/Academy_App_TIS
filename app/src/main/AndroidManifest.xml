@@ -35,7 +35,9 @@
             android:name=".head.Head_Batch"
             android:label="Batches" />
         <activity android:name=".head.teachers_profile" />
-        <activity android:name=".head.fees" />
+        <activity
+            android:name=".head.fees"
+            android:label="STUDENT&apos;S  FEES" />
         <activity android:name=".teacher.Teacher_batch" />
         <activity
             android:name=".teacher.Teacher_navigation"
@@ -46,7 +48,11 @@
         <activity android:name=".teacher.Teachers_Wall_Of_Fame" />
         <activity android:name=".teacher.Teacher_new_test" />
         <activity android:name=".teacher.Test_Record" />
-        <activity android:name=".teacher.Teacher_feed"></activity>
+        <activity android:name=".teacher.Teacher_feed" />
+        <activity
+            android:name=".student.Student_Navigation"
+            android:label="@string/title_activity_student__navigation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
