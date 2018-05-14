@@ -62,6 +62,7 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
                     @Override
                     public void onClick(View v) {
                         add.setEnabled(false);
+                        add.setVisibility(View.GONE);
 
                         Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
 

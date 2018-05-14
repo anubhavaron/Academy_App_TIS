@@ -1,7 +1,8 @@
-package com.example.pc.academy_app_tis.teacher;
+package com.example.pc.academy_app_tis;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -12,12 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.pc.academy_app_tis.R;
-import com.example.pc.academy_app_tis.head.Background_add_batch;
-import com.example.pc.academy_app_tis.head.Head_Batch;
-import com.example.pc.academy_app_tis.head.Students_details_adapter;
-import com.example.pc.academy_app_tis.head.head_navigation;
+import com.example.pc.academy_app_tis.student.Batch_Adapter;
+import com.example.pc.academy_app_tis.student.student_batch;
+import com.example.pc.academy_app_tis.student.student_fees_activity;
+import com.example.pc.academy_app_tis.teacher.Background_new_test_add;
+import com.example.pc.academy_app_tis.teacher.Teacher_navigation;
+import com.example.pc.academy_app_tis.teacher.Teacher_new_test;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,37 +34,50 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Teacher_new_test extends AppCompatActivity implements  new_test_adapter.new_test_adapterOnClickHandler {
-    String test_name[];
-    String test_marks[];
-    new_test_adapter adapter;
+public class You_Tube_links extends AppCompatActivity implements you_tube_adapter.you_tube_adapterOnClickHandler {
     RecyclerView recyclerView;
+    String[] links;
+    you_tube_adapter adapter;
     FloatingActionButton floatingActionButton;
-    Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher_new_test);
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_29);
-        floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_29);
+        setContentView(R.layout.activity_you__tube_links);
+        recyclerView=(RecyclerView)findViewById(R.id.recycler_110);
+        floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_110);
+        new Background_getting_links().execute();
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+       // Toast.makeText(You_Tube_links.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
+
+        if(pref.getString("h_t_s", null).equals("Head"))
+        {
+            floatingActionButton.setVisibility(View.VISIBLE);
+
+        }
+        else
+        {
+            floatingActionButton.setVisibility(View.GONE);
+
+        }
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(Teacher_new_test.this);
-                View mView=getLayoutInflater().inflate(R.layout.dialog_new_test,null);
-                final EditText sub=(EditText)mView.findViewById(R.id.test_name_31);
-                final EditText cl=(EditText)mView.findViewById(R.id.marks_31);
+                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(You_Tube_links.this);
+                View mView=getLayoutInflater().inflate(R.layout.dialog_links,null);
+                final EditText name=(EditText)mView.findViewById(R.id.name_112);
+                final EditText link=(EditText)mView.findViewById(R.id.link_112);
 
-                final Button add=(Button)mView.findViewById(R.id.add_31);
+                final Button add=(Button)mView.findViewById(R.id.add_112);
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         add.setEnabled(false);
                         add.setVisibility(View.GONE);
-                        Background_new_test_add background_new_test_add=new Background_new_test_add(Teacher_new_test.this);
-                        background_new_test_add.execute(Teacher_navigation.batch_subject,Teacher_navigation.batch_class,Teacher_navigation.batch_number,sub.getText().toString(),cl.getText().toString());
-                        new Background_test_info().execute();
+                        Background_links background_new_test_add=new Background_links(You_Tube_links.this);
+                        background_new_test_add.execute(name.getText().toString(),link.getText().toString());
+                        new Background_getting_links().execute();
 
                    /*     Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
 
@@ -75,24 +91,17 @@ public class Teacher_new_test extends AppCompatActivity implements  new_test_ada
                 dialog.show();
             }
         });
-        context=getApplicationContext();
-        new Background_test_info().execute();
+
     }
 
     @Override
     public void onClick(int x) {
-
-        Intent intent=new Intent(Teacher_new_test.this,Test_Record.class);
-        intent.putExtra("test_name", test_name[x]);
-        intent.putExtra("total_marks",test_marks[x]);
-
-        startActivity(intent);
-
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(links[x])));
     }
 
 
-    class Background_test_info extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/teacher/getting_new_test.php?batch_subject="+ Teacher_navigation.batch_subject+"&batch_class="+Teacher_navigation.batch_class+"&batch_number="+Teacher_navigation.batch_number;
+    class Background_getting_links extends AsyncTask<Void,Void,String>
+    {   String json_url="https://tisabcd12.000webhostapp.com/you.php";
 
         @Override
         protected void onPreExecute() {
@@ -117,25 +126,25 @@ public class Teacher_new_test extends AppCompatActivity implements  new_test_ada
 
                 jsonArray=jsonObject.getJSONArray("server response");
                 int size=jsonArray.length();
-                test_marks=new String[size];
-
-                test_name=new String[size];
+                String[] name=new String[size];
+               links=new String[size];
                 while(count<jsonArray.length())
                 {
                     JSONObject JO=jsonArray.getJSONObject(count);
-                    test_name[count]=JO.getString("test_name");
-                    test_marks[count]=JO.getString("total_marks");
+                    name[count]=JO.getString("name");
+                    links[count]=JO.getString("link");
 
                     count++;
 
 
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(Teacher_new_test.this);
+                LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
-                adapter=new new_test_adapter(Teacher_new_test.this);
+                adapter=new you_tube_adapter(You_Tube_links.this);
                 recyclerView.setAdapter(adapter);
-                adapter.swapCursor(context,test_name,test_marks);
+                adapter.swapCursor(getApplicationContext(),name);
+
 
 
 

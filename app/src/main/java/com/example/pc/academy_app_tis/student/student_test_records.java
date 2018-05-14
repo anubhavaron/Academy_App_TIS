@@ -34,7 +34,7 @@ public class student_test_records extends AppCompatActivity implements Test_Mark
         recyclerView=(RecyclerView)findViewById(R.id.recycler_102);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        Toast.makeText(student_test_records.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(student_test_records.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
 
         username=pref.getString("username", null);
         new Background_getting_marks().execute();

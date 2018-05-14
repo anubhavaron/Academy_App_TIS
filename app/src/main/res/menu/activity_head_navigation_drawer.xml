@@ -16,6 +16,10 @@
             android:id="@+id/wall_of_fame"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Wall Of Fame" />
+        <item
+            android:id="@+id/You_tube"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="You tube links" />
 
 
     </group>

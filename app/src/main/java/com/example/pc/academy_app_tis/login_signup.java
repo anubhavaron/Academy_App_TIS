@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,8 @@ public class login_signup extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
 
+        //    Toast.makeText(login_signup.this,((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo()+"xx" ,Toast.LENGTH_SHORT).show();
+
        // actionBar=getSupportActionBar();
         //actionBar.setTitle(Html.fromHtml("<font color='#000000'>ActionBartitle </font>"));
         radioGroup=(RadioGroup)findViewById(R.id.radiogroup);
@@ -60,26 +63,37 @@ public class login_signup extends Activity {
 
     public void LOGIN(View view) {
 
-        int id=radioGroup.getCheckedRadioButtonId();
-        radioButton=(RadioButton)findViewById(id);
-        head_teacher_parent_student=radioButton.getText().toString();
-        username=userName.getText().toString();
-        password=passWord.getText().toString();
-        if(head_teacher_parent_student.equals("Head"))
-        {
-            status=1;
+        if (radioGroup.getCheckedRadioButtonId() == -1)
+        {   Toast.makeText(login_signup.this,"Choose (Head/Teacher/Student)",Toast.LENGTH_SHORT).show();
+            // no radio buttons are checked
         }
-        if(head_teacher_parent_student.equals("Teacher"))
-        {
-            status=2;
-        }
-        if(head_teacher_parent_student.equals("Student/Parent"))
-        {   head_teacher_parent_student="Student";
-            status=3;
+        else
+        {   int id=radioGroup.getCheckedRadioButtonId();
+            radioButton=(RadioButton)findViewById(id);
+
+            username=userName.getText().toString();
+            password=passWord.getText().toString();
+            if(radioButton.isChecked()==true) {
+            head_teacher_parent_student=radioButton.getText().toString();
+            if (head_teacher_parent_student.equals("Head")) {
+                status = 1;
+            }
+            if (head_teacher_parent_student.equals("Teacher")) {
+                status = 2;
+            }
+            if (head_teacher_parent_student.equals("Student/Parent")) {
+                head_teacher_parent_student = "Student";
+                status = 3;
+            }
+            new Background_login().execute();
+            }
+            // one of the radio buttons is checked
         }
 
 
-        new Background_login().execute();
+
+
+
 
 
     }
@@ -90,7 +104,7 @@ public class login_signup extends Activity {
 
         @Override
         protected void onPostExecute(String JSON_STRING) {
-       // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
             JSONObject jsonObject;
             JSONArray jsonArray;
@@ -127,7 +141,7 @@ public class login_signup extends Activity {
                     editor.putBoolean("is", true);
                     editor.putString("h_t_s","Head");
                     editor.apply();
-                    Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
 
                     Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
                     startActivity(intent);
@@ -136,7 +150,7 @@ public class login_signup extends Activity {
                 }
                 else
                 if((flag)&&(status==2))
-                {   Toast.makeText(login_signup.this,"teacher_login",Toast.LENGTH_SHORT).show();
+                {   //Toast.makeText(login_signup.this,"teacher_login",Toast.LENGTH_SHORT).show();
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
 
@@ -144,7 +158,7 @@ public class login_signup extends Activity {
                     editor.putString("h_t_s","Teacher");
                     editor.putString("username",username);
                     editor.apply();
-                    Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
 
                     Intent intent=new Intent(login_signup.this,Teacher_batch.class);
                     startActivity(intent);
@@ -162,7 +176,7 @@ public class login_signup extends Activity {
                     editor.putString("h_t_s","Student");
                     editor.putString("username",username);
                     editor.apply();
-                    Toast.makeText(login_signup.this,"bhbhjbh",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(login_signup.this,"bhbhjbh",Toast.LENGTH_LONG).show();
 
                     Intent intent=new Intent(login_signup.this,Student_Navigation.class);
                     startActivity(intent);
@@ -170,7 +184,7 @@ public class login_signup extends Activity {
                 }
                 else
                 {
-
+                    Toast.makeText(login_signup.this,"Not Found",Toast.LENGTH_SHORT).show();
                     //ERROR
                 }
 
@@ -189,25 +203,37 @@ public class login_signup extends Activity {
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
         }
+        public boolean isNetworkAvailable(Context context)
+        {
+            return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
+        }
 
         @Override
         protected String doInBackground(Void... voids) {
             String json_string;
             try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
 
+                URL url=new URL(json_url);
+
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setConnectTimeout(7000);
+                try {
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((json_string = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(json_string + "\n");
+
+                    }
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+                    return stringBuilder.toString().trim();
+                }finally {
+                    //end connection
+                    httpURLConnection.disconnect();
                 }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
+
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

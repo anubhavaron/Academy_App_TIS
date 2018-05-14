@@ -38,7 +38,7 @@ public class student_fees_activity extends AppCompatActivity implements com.exam
         recyclerView=(RecyclerView)findViewById(R.id.recycler_53);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        Toast.makeText(student_fees_activity.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(student_fees_activity.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
 
         username=pref.getString("username", null);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());

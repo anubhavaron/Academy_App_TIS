@@ -43,6 +43,7 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+
         adapter=new Batch_Adapter(student_batch.this);
         recyclerView.setAdapter(adapter);
         Background_batch_from_id background_batch_from_id=new Background_batch_from_id();
@@ -103,7 +104,7 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
                 if(batch_class!=null)
                 {
                     adapter.swapCursor(getApplicationContext(),batch_subject,batch_class,batch_number);
-                    Toast.makeText(getApplicationContext(),"Click to see fees",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Click to see Feed",Toast.LENGTH_SHORT).show();
                 }
 
 

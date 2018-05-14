@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.You_Tube_links;
 import com.example.pc.academy_app_tis.student.Student_Navigation;
 
 public class Teacher_navigation extends AppCompatActivity
@@ -134,6 +135,11 @@ public class Teacher_navigation extends AppCompatActivity
 
         }  else if (id == R.id.wall_of_fame_teacher) {
             Intent i=new Intent(Teacher_navigation.this,Teachers_Wall_Of_Fame.class);
+            startActivity(i);
+
+        }
+        else if (id == R.id.You_tube_t) {
+            Intent i=new Intent(Teacher_navigation.this,You_Tube_links.class);
             startActivity(i);
 
         }

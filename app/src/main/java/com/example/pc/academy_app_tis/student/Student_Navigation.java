@@ -18,11 +18,14 @@ import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.MainActivity;
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.You_Tube_links;
 import com.example.pc.academy_app_tis.head.Head_Batch;
+import com.example.pc.academy_app_tis.teacher.Teacher_navigation;
 
 public class Student_Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     static String username;
+    int backpress=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,15 @@ public class Student_Navigation extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+                backpress = (backpress + 1);
+                if(backpress==1) {
+                    Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+                }
+                if (backpress>1) {
+                    this.finish();
+                }
+
         }
     }
 
@@ -95,6 +106,7 @@ public class Student_Navigation extends AppCompatActivity
             editor.apply();
             Intent i=new Intent(Student_Navigation.this, MainActivity.class);
             startActivity(i);
+            finish();
             return true;
         }
 
@@ -106,7 +118,6 @@ public class Student_Navigation extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_camera) {
             Intent i=new Intent(Student_Navigation.this,student_batch.class);
             startActivity(i);
@@ -127,6 +138,11 @@ public class Student_Navigation extends AppCompatActivity
         else if (id == R.id.wall_of_fame_navi) {
             Intent i=new Intent(Student_Navigation.this,com.example.pc.academy_app_tis.teacher.Teachers_Wall_Of_Fame.class);
             startActivity(i);
+        }
+        else if (id == R.id.You_tube_s) {
+            Intent i=new Intent(Student_Navigation.this,You_Tube_links.class);
+            startActivity(i);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

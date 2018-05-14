@@ -69,7 +69,7 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_9);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        Toast.makeText(teachers_profile.this,pref.getString("h_t_s", null),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(teachers_profile.this,pref.getString("h_t_s", null),Toast.LENGTH_SHORT).show();
 
         if(pref.getString("h_t_s", null).equals("Head"))
         {

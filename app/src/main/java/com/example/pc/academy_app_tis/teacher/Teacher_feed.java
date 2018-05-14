@@ -110,6 +110,7 @@ public class Teacher_feed extends AppCompatActivity implements  Feed_Adapter.Fee
                     @Override
                     public void onClick(View v) {
                         add.setEnabled(false);
+                        add.setVisibility(View.GONE);
                     if(flag[0]==false)
                     {
                         Background_feed_not_image background_feed_not_image=new Background_feed_not_image(Teacher_feed.this);

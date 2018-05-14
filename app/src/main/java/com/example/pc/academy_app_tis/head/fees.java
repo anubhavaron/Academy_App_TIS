@@ -120,6 +120,7 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
                     @Override
                     public void onClick(View v) {
                         add.setEnabled(false);
+                        add.setVisibility(View.GONE);
 
                         Background_add_fees background_add_fee=new Background_add_fees(fees.this);
 

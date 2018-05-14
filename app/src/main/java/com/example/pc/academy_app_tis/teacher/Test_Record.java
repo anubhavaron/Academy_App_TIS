@@ -74,7 +74,7 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
                     @Override
                     public void onClick(View v) {
                         add.setEnabled(false);
-
+                        add.setVisibility(View.GONE);
 
 
                        Background_test_record background_new_test_add=new Background_test_record(Test_Record.this);

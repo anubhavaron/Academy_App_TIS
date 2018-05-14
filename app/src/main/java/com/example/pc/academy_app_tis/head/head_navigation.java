@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.You_Tube_links;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,7 +98,7 @@ public class head_navigation extends AppCompatActivity
         batch_class=getIntent().getStringExtra("batch_class");
         batch_number=getIntent().getStringExtra("batch_number");
 
-        Toast.makeText(head_navigation.this,batch_subject+batch_class+batch_number,Toast.LENGTH_LONG).show();
+     //   Toast.makeText(head_navigation.this,batch_subject+batch_class+batch_number,Toast.LENGTH_LONG).show();
         recyclerView=(RecyclerView)findViewById(R.id.recycler_6);
 
 
@@ -245,6 +246,13 @@ public class head_navigation extends AppCompatActivity
                 Intent i=new Intent(head_navigation.this,Wall_of_fame_head.class);
                 startActivity(i);
             }
+            else
+            if(id==R.id.You_tube)
+            {
+                Intent i=new Intent(head_navigation.this,You_Tube_links.class);
+                startActivity(i);
+            }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
