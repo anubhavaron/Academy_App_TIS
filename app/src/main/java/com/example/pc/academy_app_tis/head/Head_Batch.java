@@ -107,6 +107,7 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
             editor.apply();
             Intent i=new Intent(Head_Batch.this, MainActivity.class);
             startActivity(i);
+            finish();
             return true;
         }
 

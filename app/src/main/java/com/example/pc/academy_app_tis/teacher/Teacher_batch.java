@@ -112,6 +112,7 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
             editor.apply();
             Intent i=new Intent(Teacher_batch.this, MainActivity.class);
             startActivity(i);
+            finish();
             return true;
         }
 

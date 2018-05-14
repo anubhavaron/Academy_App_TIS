@@ -31,12 +31,15 @@ public class MainActivity extends Activity {
             if (h_t_s.equals("Head")) {
                 Intent i = new Intent(MainActivity.this, Head_Batch.class);
                 startActivity(i);
+                finish();
             } else if (h_t_s.equals("Teacher")) {
                 Intent i = new Intent(MainActivity.this, Teacher_batch.class);
                 startActivity(i);
+                finish();
             } else if (h_t_s.equals("Student")) {
                 Intent i = new Intent(MainActivity.this, Student_Navigation.class);
                 startActivity(i);
+                finish();
             }
         }else {
 

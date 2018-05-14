@@ -131,6 +131,7 @@ public class login_signup extends Activity {
 
                     Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
                     startActivity(intent);
+                    finish();
 
                 }
                 else
@@ -146,6 +147,7 @@ public class login_signup extends Activity {
 
                     Intent intent=new Intent(login_signup.this,Teacher_batch.class);
                     startActivity(intent);
+                    finish();
 
                 }
                 else
@@ -163,6 +165,7 @@ public class login_signup extends Activity {
 
                     Intent intent=new Intent(login_signup.this,Student_Navigation.class);
                     startActivity(intent);
+                    finish();
                 }
                 else
                 {
