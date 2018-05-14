@@ -55,7 +55,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
 
         holder.name.setText(username[position]);
         holder.description.setText(description[position]);
-        String url="https://tisabcd12.000webhostapp.com/student/photos/logo.PNG";
+        String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+username[position]+".jpg";
         Glide.with(context)
                 .load(url) // image url
                 .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
