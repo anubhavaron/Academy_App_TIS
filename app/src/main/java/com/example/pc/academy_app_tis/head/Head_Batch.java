@@ -34,6 +34,7 @@ import java.net.URL;
 public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.Head_Batch_AdapterOnClickHandler {
     RecyclerView recyclerView;
     Head_Batch_Adapter adapter;
+    int backpress=0;
     String batch_subject[];
     String batch_class[];
     String batch_number[];
@@ -112,6 +113,16 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed(){
+        backpress = (backpress + 1);
+        if(backpress==1) {
+            Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+        }
+        if (backpress>1) {
+            this.finish();
+        }
     }
 
     @Override

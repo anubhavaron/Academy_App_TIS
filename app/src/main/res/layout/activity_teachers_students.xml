@@ -12,13 +12,19 @@
         android:text="STUDENTS"
         android:textStyle="bold"
         android:textColor="#000000"
+        android:background="@color/halke"
         android:paddingTop="5dp"
         android:textSize="25dp"
         android:gravity="center"
         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/halke"
         android:id="@+id/recycler_22"
         >
     </android.support.v7.widget.RecyclerView>

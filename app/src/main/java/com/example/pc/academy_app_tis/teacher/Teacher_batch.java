@@ -43,6 +43,7 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
     String batch_subject[];
     String batch_class[];
     String batch_number[];
+    int backpress=0;
 
 
     @Override
@@ -85,6 +86,16 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
         startActivity(intent);
 
 
+    }
+    @Override
+    public void onBackPressed(){
+        backpress = (backpress + 1);
+        if(backpress==1) {
+            Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+        }
+        if (backpress>1) {
+            this.finish();
+        }
     }
 
     @Override

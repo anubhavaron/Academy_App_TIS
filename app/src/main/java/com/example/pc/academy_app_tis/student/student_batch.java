@@ -54,7 +54,7 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
         subject_s=batch_subject[x];
         class_s=batch_class[x];
         number_s=batch_number[x];
-        Intent i=new Intent(student_batch.this,student_fees_activity.class);
+        Intent i=new Intent(student_batch.this,students_feed.class);
         startActivity(i);
 
     }

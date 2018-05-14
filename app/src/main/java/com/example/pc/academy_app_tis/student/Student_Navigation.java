@@ -113,6 +113,9 @@ public class Student_Navigation extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
+            Intent i=new Intent(Student_Navigation.this,student_fees_activity.class);
+            startActivity(i);
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

@@ -1,68 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <Switch
-        android:id="@+id/switch42"
-        android:layout_width="match_parent"
+    android:background="#000000"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:layout_margin="2dp"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center"
-        android:text="Image or not ?  " />
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/imageview_42"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="1dp"
-        android:src="@drawable/ic_people_black_24dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter Text Here"
-        android:textColor="#000000"
-        android:paddingLeft="5dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:hint="Title"
-        android:id="@+id/title_42"
-        android:textColor="#000000"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter Message Here"
-        android:textColor="#000000"
-        android:paddingLeft="5dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:hint="Message"
-        android:id="@+id/message_42"
-        android:textColor="#000000"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#ffffff"
-        android:text="ADD"
-        android:id="@+id/add_42"
-        android:background="@color/colorPrimaryDark"
-        android:layout_gravity="center"
-        android:layout_marginBottom="2dp"/>
+        android:background="#ECEFF1"
+        android:orientation="vertical">
+        <Switch
+            android:id="@+id/switch42"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#003f77"
+            android:textStyle="bold"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:text="Image or not ?  " />
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/imageview_42"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="1dp"
+            android:src="@drawable/ic_people_black_24dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Text Here"
+            android:textColor="#003f77"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_gravity="center" android:backgroundTint="#005eb2"
+            android:textColor="#664901"
+            android:textColorHint="#000000"
 
 
-</LinearLayout>
+
+            android:id="@+id/title_42"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Message Here"
+            android:textColor="#003f77"
+            android:textStyle="bold"
+
+            android:paddingLeft="5dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:backgroundTint="#005eb2"
+            android:textColor="#664901"
+            android:textColorHint="#000000"
+
+
+            android:id="@+id/message_42"
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="ADD"
+            android:id="@+id/add_42"
+            android:background="@color/blue_dark"
+            android:layout_gravity="center"
+            android:layout_marginBottom="2dp"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -142,6 +142,7 @@ public class login_signup extends Activity {
 
                     editor.putBoolean("is", true);
                     editor.putString("h_t_s","Teacher");
+                    editor.putString("username",username);
                     editor.apply();
                     Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
 

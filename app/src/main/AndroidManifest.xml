@@ -54,7 +54,9 @@
             android:label="@string/title_activity_student__navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".student.student_batch" />
-        <activity android:name=".student.student_fees_activity"></activity>
+        <activity android:name=".student.student_fees_activity" />
+        <activity android:name=".student.students_feed" />
+        <activity android:name=".student.student_test_records"></activity>
     </application>
 
 </manifest>

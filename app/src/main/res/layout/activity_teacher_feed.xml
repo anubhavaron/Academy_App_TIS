@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
+
     tools:context="com.example.pc.academy_app_tis.teacher.Teacher_feed"
     android:orientation="vertical">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
+        android:background="@color/halke"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_41"></android.support.v7.widget.RecyclerView>
+        android:id="@+id/recycler_41">
+    </android.support.v7.widget.RecyclerView>
 
 
 

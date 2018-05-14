@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="START DATE"
+                android:text="SUBJECT"
                 android:gravity="center"
                 android:textSize="16dp"
                 android:textStyle="bold"
@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="END DATE"
+                android:text="START DATE"
                 android:textColor="#000000"
                 android:textSize="16dp"
                 android:gravity="center"
@@ -55,7 +55,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:text="AMOUNT"/>
+                android:text="END DATE"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
