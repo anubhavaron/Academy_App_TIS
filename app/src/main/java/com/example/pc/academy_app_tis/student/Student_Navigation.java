@@ -117,9 +117,16 @@ public class Student_Navigation extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent i=new Intent(Student_Navigation.this,student_test_records.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_manage) {
-
+            Intent i=new Intent(Student_Navigation.this,com.example.pc.academy_app_tis.head.teachers_profile.class);
+            startActivity(i);
+        }
+        else if (id == R.id.wall_of_fame_navi) {
+            Intent i=new Intent(Student_Navigation.this,com.example.pc.academy_app_tis.teacher.Teachers_Wall_Of_Fame.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

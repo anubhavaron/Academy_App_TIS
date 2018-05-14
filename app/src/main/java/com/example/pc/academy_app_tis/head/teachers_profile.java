@@ -2,6 +2,7 @@ package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.student.student_test_records;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +67,19 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         setContentView(R.layout.activity_teachers_profile);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_9);
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_9);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Toast.makeText(teachers_profile.this,pref.getString("h_t_s", null),Toast.LENGTH_SHORT).show();
+
+        if(pref.getString("h_t_s", null).equals("Head"))
+        {
+            floatingActionButton.setVisibility(View.VISIBLE);
+        }
+        else
+            if(pref.getString("h_t_s", null).equals("Student"))
+            {
+                floatingActionButton.setVisibility(View.GONE);
+            }
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
