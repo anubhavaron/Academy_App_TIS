@@ -78,43 +78,44 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
 
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                batch_subject=new String[size];
-                batch_class=new String[size];
-                batch_number=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    batch_subject[count]=JO.getString("batch_subject");
-                    batch_class[count]=JO.getString("batch_class");
-                    batch_number[count]=JO.getString("batch_number");
+                if(JSON_STRING!=null) {
+                    try {
+                        jsonObject = new JSONObject(JSON_STRING);
+                        int count = 0;
 
 
-                    count++;
+                        jsonArray = jsonObject.getJSONArray("server response");
+                        int size = jsonArray.length();
+                        batch_subject = new String[size];
+                        batch_class = new String[size];
+                        batch_number = new String[size];
+                        while (count < jsonArray.length()) {
+                            JSONObject JO = jsonArray.getJSONObject(count);
+                            batch_subject[count] = JO.getString("batch_subject");
+                            batch_class[count] = JO.getString("batch_class");
+                            batch_number[count] = JO.getString("batch_number");
+
+
+                            count++;
+
+
+                        }
+                        if (batch_class != null) {
+                            adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
+                            Toast.makeText(getApplicationContext(), "Click to see Feed", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
 
                 }
-                if(batch_class!=null)
+                else
                 {
-                    adapter.swapCursor(getApplicationContext(),batch_subject,batch_class,batch_number);
-                    Toast.makeText(getApplicationContext(),"Click to see Feed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(student_batch.this,"No Internet",Toast.LENGTH_SHORT).show();
                 }
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
 
             super.onPostExecute(JSON_STRING);

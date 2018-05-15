@@ -70,7 +70,7 @@ public class Teacher_navigation extends AppCompatActivity
         batch_subject=getIntent().getStringExtra("batch_subject");
         batch_class=getIntent().getStringExtra("batch_class");
         batch_number=getIntent().getStringExtra("batch_number");
-        Toast.makeText(Teacher_navigation.this,batch_subject+batch_class+batch_number,Toast.LENGTH_LONG).show();
+       // Toast.makeText(Teacher_navigation.this,batch_subject+batch_class+batch_number,Toast.LENGTH_LONG).show();
 
 
 

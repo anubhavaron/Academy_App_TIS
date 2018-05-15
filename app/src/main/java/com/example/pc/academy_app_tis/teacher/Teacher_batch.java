@@ -77,7 +77,7 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
 
     @Override
     public void onClick(int x) {
-        Toast.makeText(Teacher_batch.this,x+"",Toast.LENGTH_LONG).show();
+        //Toast.makeText(Teacher_batch.this,x+"",Toast.LENGTH_LONG).show();
         Intent intent=new Intent(Teacher_batch.this,Teacher_navigation.class);
         intent.putExtra("batch_subject", batch_subject[x]);
         intent.putExtra("batch_class", batch_class[x]);
@@ -155,46 +155,44 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
             JSONObject jsonObject;
             JSONArray jsonArray;
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                batch_subject=new String[size];
-                batch_class=new String[size];
-                batch_number=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    batch_subject[count]=JO.getString("batch_subject");
-                    batch_class[count]=JO.getString("batch_class");
-                    batch_number[count]=JO.getString("batch_number");
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-                    count++;
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    batch_subject = new String[size];
+                    batch_class = new String[size];
+                    batch_number = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        batch_subject[count] = JO.getString("batch_subject");
+                        batch_class[count] = JO.getString("batch_class");
+                        batch_number[count] = JO.getString("batch_number");
 
 
+                        count++;
+
+
+                    }
+                    if (batch_class != null) {
+                        adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if(batch_class!=null)
-                {
-                    adapter.swapCursor(getApplicationContext(),batch_subject,batch_class,batch_number);
-                }
 
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
-
+            else
+            {
+                Toast.makeText(Teacher_batch.this,"No Internet",Toast.LENGTH_SHORT).show();
+            }
             super.onPostExecute(JSON_STRING);
         }
 

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.head.Background_add_batch;
@@ -108,45 +109,45 @@ public class Teacher_new_test extends AppCompatActivity implements  new_test_ada
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
+            if(JSON_STRING!=null) {
+
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    test_marks = new String[size];
+
+                    test_name = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        test_name[count] = JO.getString("test_name");
+                        test_marks[count] = JO.getString("total_marks");
+
+                        count++;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                test_marks=new String[size];
-
-                test_name=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    test_name[count]=JO.getString("test_name");
-                    test_marks[count]=JO.getString("total_marks");
-
-                    count++;
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Teacher_new_test.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new new_test_adapter(Teacher_new_test.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.swapCursor(context, test_name, test_marks);
 
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(Teacher_new_test.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                adapter=new new_test_adapter(Teacher_new_test.this);
-                recyclerView.setAdapter(adapter);
-                adapter.swapCursor(context,test_name,test_marks);
 
 
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
+            else
+            {
+                Toast.makeText(Teacher_new_test.this,"No Internet",Toast.LENGTH_SHORT).show();
+            }
 
             super.onPostExecute(JSON_STRING);
         }

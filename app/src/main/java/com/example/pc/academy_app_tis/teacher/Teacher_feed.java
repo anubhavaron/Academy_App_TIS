@@ -115,7 +115,8 @@ public class Teacher_feed extends AppCompatActivity implements  Feed_Adapter.Fee
                     {
                         Background_feed_not_image background_feed_not_image=new Background_feed_not_image(Teacher_feed.this);
                         background_feed_not_image.execute(Teacher_navigation.batch_subject,Teacher_navigation.batch_class,Teacher_navigation.batch_number,title.getText().toString(),message.getText().toString());
-
+                        Background_getting_feed background_getting_feed=new Background_getting_feed();
+                        background_getting_feed.execute();
                     }
                     else
                     {
@@ -179,6 +180,8 @@ public class Teacher_feed extends AppCompatActivity implements  Feed_Adapter.Fee
                             JSONObject jsonObject=new JSONObject(response);
                             String Response=jsonObject.getString("response");
                             Toast.makeText(Teacher_feed.this,Response,Toast.LENGTH_SHORT).show();
+                            Background_getting_feed background_getting_feed=new Background_getting_feed();
+                            background_getting_feed.execute();
 
                            /* Intent i=new Intent(teachers_profile.this,teachers_profile.class);
                             startActivity(i);*/
@@ -252,46 +255,49 @@ public class Teacher_feed extends AppCompatActivity implements  Feed_Adapter.Fee
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
-
+            if(JSON_STRING!=null)
+            {
 
 
             try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
+                jsonObject = new JSONObject(JSON_STRING);
+                int count = 0;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                title_array=new String[size];
-                message_Array=new String[size];
-                fwion_array=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    fwion_array[count]=JO.getString("fwion");
-                    title_array[count]=JO.getString("title");
-                    message_Array[count]=JO.getString("message");
+                jsonArray = jsonObject.getJSONArray("server response");
+                int size = jsonArray.length();
+                title_array = new String[size];
+                message_Array = new String[size];
+                fwion_array = new String[size];
+                while (count < jsonArray.length()) {
+                    JSONObject JO = jsonArray.getJSONObject(count);
+                    fwion_array[count] = JO.getString("fwion");
+                    title_array[count] = JO.getString("title");
+                    message_Array[count] = JO.getString("message");
 
 
                     count++;
 
 
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(Teacher_feed.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(Teacher_feed.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
-                adapter=new Feed_Adapter(Teacher_feed.this);
+                adapter = new Feed_Adapter(Teacher_feed.this);
                 recyclerView.setAdapter(adapter);
-                adapter.swapCursor(getApplicationContext(),title_array,message_Array,fwion_array);
-
-
-
+                adapter.swapCursor(getApplicationContext(), title_array, message_Array, fwion_array);
 
 
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+
+            }
+            else
+            {
+                Toast.makeText(Teacher_feed.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 

@@ -117,45 +117,42 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
+            if(JSON_STRING!=null) {
+
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    String[] name = new String[size];
+                    links = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        name[count] = JO.getString("name");
+                        links[count] = JO.getString("link");
+
+                        count++;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                String[] name=new String[size];
-               links=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    name[count]=JO.getString("name");
-                    links[count]=JO.getString("link");
-
-                    count++;
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new you_tube_adapter(You_Tube_links.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.swapCursor(getApplicationContext(), name);
 
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                adapter=new you_tube_adapter(You_Tube_links.this);
-                recyclerView.setAdapter(adapter);
-                adapter.swapCursor(getApplicationContext(),name);
-
-
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
+            else
+            {
+                Toast.makeText(You_Tube_links.this,"No Internet",Toast.LENGTH_SHORT).show();
+            }
 
             super.onPostExecute(JSON_STRING);
         }

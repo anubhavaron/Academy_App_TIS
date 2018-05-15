@@ -61,7 +61,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
         String x=name[position].substring(0,name[position].length()-2);
 
         holder.textView.setText(x);
-        String url="https://tisabcd12.000webhostapp.com/student/photos/logo.PNG";
+        String url="https://tisabcd12.000webhostapp.com/student/photos/"+name[position]+".jpg";
         Glide.with(context)
                 .load(url) // image url
                .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start

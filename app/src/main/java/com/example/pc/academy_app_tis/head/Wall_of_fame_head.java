@@ -223,43 +223,42 @@ RecyclerView recyclerView;
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                title=new String[size];
-                description=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    title[count]=JO.getString("title");
-                    description[count]=JO.getString("description");
-
-                    count++;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    title = new String[size];
+                    description = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        title[count] = JO.getString("title");
+                        description[count] = JO.getString("description");
+
+                        count++;
+
+
+                    }
+
+                    adapter.swapCursor(getApplicationContext(), title, description);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                adapter.swapCursor(getApplicationContext(),title,description);
 
+                super.onPostExecute(JSON_STRING);
 
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
-
-            super.onPostExecute(JSON_STRING);
+            else {
+                Toast.makeText(Wall_of_fame_head.this,"No Internet",Toast.LENGTH_SHORT).show();
+            }
         }
 
 

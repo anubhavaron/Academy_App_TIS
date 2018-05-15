@@ -143,6 +143,8 @@ public class head_navigation extends AppCompatActivity
                         background_adding_into_id_batch_table.execute(head_navigation.batch_subject,head_navigation.batch_class,head_navigation.batch_number,username_s);
                         Background_getting_students_info background_getting_students_info=new Background_getting_students_info();
                         background_getting_students_info.execute();
+                        Background_getting_students background_getting_students=new Background_getting_students();
+                        background_getting_students.execute();
                         //  uploadImage();
                     }
                 });
@@ -283,40 +285,40 @@ public class head_navigation extends AppCompatActivity
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
+            if(JSON_STRING!=null) {
 
 
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                name=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    name[count]=JO.getString("username");
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    name = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        name[count] = JO.getString("username");
 
-                    count++;
+                        count++;
 
 
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(head_navigation.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new Students_details_adapter(head_navigation.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.swapCursor(context, name);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(head_navigation.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                adapter=new Students_details_adapter(head_navigation.this);
-                recyclerView.setAdapter(adapter);
-                adapter.swapCursor(context,name);
-
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            else
+            {
+                Toast.makeText(head_navigation.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 
@@ -376,36 +378,32 @@ public class head_navigation extends AppCompatActivity
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if (JSON_STRING != null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                if(size>0)
-                {
-                    Toast.makeText(getApplicationContext(),"YES",Toast.LENGTH_LONG).show();
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    if (size > 0) {
+                        Toast.makeText(getApplicationContext(), "YES", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No", Toast.LENGTH_LONG).show();
+                        uploadImage();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"No",Toast.LENGTH_LONG).show();
-                    uploadImage();
-                }
 
 
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else
+            {
+                Toast.makeText(head_navigation.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 

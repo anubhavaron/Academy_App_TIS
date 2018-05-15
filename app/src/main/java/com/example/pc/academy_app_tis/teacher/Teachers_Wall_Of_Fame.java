@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.head.Wall_of_fame_Adapter;
@@ -67,42 +68,40 @@ public class Teachers_Wall_Of_Fame extends AppCompatActivity implements Wall_of_
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                title=new String[size];
-                description=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    title[count]=JO.getString("title");
-                    description[count]=JO.getString("description");
-
-                    count++;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    title = new String[size];
+                    description = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        title[count] = JO.getString("title");
+                        description[count] = JO.getString("description");
+
+                        count++;
+
+
+                    }
+
+                    adapter.swapCursor(getApplicationContext(), title, description);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                adapter.swapCursor(getApplicationContext(),title,description);
-
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
-
+            else
+            {
+                Toast.makeText(Teachers_Wall_Of_Fame.this,"No Internet",Toast.LENGTH_SHORT).show();
+            }
             super.onPostExecute(JSON_STRING);
         }
 

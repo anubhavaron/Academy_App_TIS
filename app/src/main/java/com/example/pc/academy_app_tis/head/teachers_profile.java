@@ -247,35 +247,41 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         protected void onPostExecute(String JSON_STRING) {
             JSONObject jsonObject;
             JSONArray jsonArray;
-
-           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                name=new String[size];
-                description=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    name[count]=JO.getString("name");
-                    description[count]=JO.getString("description");
-
-                    count++;
+            if(JSON_STRING!=null) {
+                // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    name = new String[size];
+                    description = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        name[count] = JO.getString("name");
+                        description[count] = JO.getString("description");
+
+                        count++;
+
+
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(teachers_profile.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new teachers_profile_adapter(teachers_profile.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.swapCursor(context, name, description);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(teachers_profile.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                adapter=new teachers_profile_adapter(teachers_profile.this);
-                recyclerView.setAdapter(adapter);
-               adapter.swapCursor(context,name,description);
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+
+            }
+            else
+            {
+                Toast.makeText(teachers_profile.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 

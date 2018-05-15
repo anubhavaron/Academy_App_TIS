@@ -105,95 +105,89 @@ public class login_signup extends Activity {
         @Override
         protected void onPostExecute(String JSON_STRING) {
         //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+                if(JSON_STRING!=null) {
+                    JSONObject jsonObject;
+                    JSONArray jsonArray;
 
-            JSONObject jsonObject;
-            JSONArray jsonArray;
+                    try {
+                        jsonObject = new JSONObject(JSON_STRING);
+                        int count = 0;
+                        String u_name;
+                        String p_word;
+                        String h_t_s_p;
+                        jsonArray = jsonObject.getJSONArray("server response");
+                        while (count < jsonArray.length()) {
+                            JSONObject JO = jsonArray.getJSONObject(count);
+                            u_name = JO.getString("username");
+                            p_word = JO.getString("password");
+                            h_t_s_p = JO.getString("head_teacher_student_parent");
 
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-                String u_name;
-                String p_word;
-                String h_t_s_p;
-                jsonArray=jsonObject.getJSONArray("server response");
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    u_name=JO.getString("username");
-                    p_word=JO.getString("password");
-                    h_t_s_p=JO.getString("head_teacher_student_parent");
+                            if ((u_name.equals(username)) && (p_word.equals(password)) && (h_t_s_p.equals(head_teacher_parent_student))) {
+                                flag = true;
+                            }
+                            count++;
 
-                    if((u_name.equals(username))&&(p_word.equals(password))&&(h_t_s_p.equals(head_teacher_parent_student)))
-                    {
-                        flag=true;
+
+                        }
+
+                        if ((flag) && (status == 1)) {
+                            //
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+
+                            editor.putBoolean("is", true);
+                            editor.putString("h_t_s", "Head");
+                            editor.apply();
+                             Toast.makeText(login_signup.this,"Succeessful Login",Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(login_signup.this, com.example.pc.academy_app_tis.head.Head_Batch.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else if ((flag) && (status == 2)) {   //Toast.makeText(login_signup.this,"teacher_login",Toast.LENGTH_SHORT).show();
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+
+                            editor.putBoolean("is", true);
+                            editor.putString("h_t_s", "Teacher");
+                            editor.putString("username", username);
+                            editor.apply();
+                            //Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
+                            Toast.makeText(login_signup.this,"Succeessful Login",Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(login_signup.this, Teacher_batch.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else if ((flag) && (status == 3)) {
+
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+
+                            editor.putBoolean("is", true);
+                            editor.putString("h_t_s", "Student");
+                            editor.putString("username", username);
+                            editor.apply();
+                            //Toast.makeText(login_signup.this,"bhbhjbh",Toast.LENGTH_LONG).show();
+                            Toast.makeText(login_signup.this,"Succeessful Login",Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(login_signup.this, Student_Navigation.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(login_signup.this, "Not Found", Toast.LENGTH_SHORT).show();
+                            //ERROR
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    count++;
 
-
-                }
-
-                if((flag)&&(status==1))
-                {
-                    //
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-
-                    editor.putBoolean("is", true);
-                    editor.putString("h_t_s","Head");
-                    editor.apply();
-                  //  Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
-
-                    Intent intent=new Intent(login_signup.this,com.example.pc.academy_app_tis.head.Head_Batch.class);
-                    startActivity(intent);
-                    finish();
 
                 }
                 else
-                if((flag)&&(status==2))
-                {   //Toast.makeText(login_signup.this,"teacher_login",Toast.LENGTH_SHORT).show();
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-
-                    editor.putBoolean("is", true);
-                    editor.putString("h_t_s","Teacher");
-                    editor.putString("username",username);
-                    editor.apply();
-                    //Toast.makeText(login_signup.this,flag+"",Toast.LENGTH_LONG).show();
-
-                    Intent intent=new Intent(login_signup.this,Teacher_batch.class);
-                    startActivity(intent);
-                    finish();
-
-                }
-                else
-                if((flag)&&(status==3))
                 {
-
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-
-                    editor.putBoolean("is", true);
-                    editor.putString("h_t_s","Student");
-                    editor.putString("username",username);
-                    editor.apply();
-                    //Toast.makeText(login_signup.this,"bhbhjbh",Toast.LENGTH_LONG).show();
-
-                    Intent intent=new Intent(login_signup.this,Student_Navigation.class);
-                    startActivity(intent);
-                    finish();
+                    Toast.makeText(login_signup.this,"No Internet Connectivity",Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                    Toast.makeText(login_signup.this,"Not Found",Toast.LENGTH_SHORT).show();
-                    //ERROR
-                }
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
 
             super.onPostExecute(JSON_STRING);

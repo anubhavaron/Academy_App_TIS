@@ -174,38 +174,43 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
             JSONArray jsonArray;
            // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                start_date=new String[size];
-                end_date=new String[size];
-                amount=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    start_date[count]=JO.getString("start_date");
-                    end_date[count]=JO.getString("end_datet");
-                    amount[count]=JO.getString("amount");
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    start_date = new String[size];
+                    end_date = new String[size];
+                    amount = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        start_date[count] = JO.getString("start_date");
+                        end_date[count] = JO.getString("end_datet");
+                        amount[count] = JO.getString("amount");
 
 
-                    count++;
+                        count++;
 
 
+                    }
+
+                    //Toast.makeText(getApplicationContext(), count + "         hello", Toast.LENGTH_LONG).show();
+                    f_adapter.swapCursor(getApplicationContext(), start_date, end_date, amount);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                Toast.makeText(getApplicationContext(),count+"         hello",Toast.LENGTH_LONG).show();
-                f_adapter.swapCursor(getApplicationContext(),start_date,end_date,amount);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            else
+            {
+                Toast.makeText(fees.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 
@@ -268,43 +273,43 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-                names=new ArrayList<String>();
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                name=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    name[count]=JO.getString("username");
-                    names.add(name[count]);
-
-                    count++;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
+                    names = new ArrayList<String>();
 
 
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    name = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        name[count] = JO.getString("username");
+                        names.add(name[count]);
+
+                        count++;
+
+
+                    }
+
+
+                    arrayList = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, names);
+                    arrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    autoCompleteTextView.setAdapter(arrayList);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
 
-                arrayList = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, names);
-                arrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                autoCompleteTextView.setAdapter(arrayList);
-
-
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            else
+            {
+                Toast.makeText(fees.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 

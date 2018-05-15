@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 
 
         boolean flag = pref.getBoolean("is", false);  // getting boolean
-        Toast.makeText(MainActivity.this, flag + "", Toast.LENGTH_LONG).show();
+     //   Toast.makeText(MainActivity.this, flag + "", Toast.LENGTH_LONG).show();
         if (flag == true) {
 
             String h_t_s = pref.getString("h_t_s", null);

@@ -154,43 +154,42 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
                 JSONObject  jsonObject;
             JSONArray jsonArray;
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                batch_subject=new String[size];
-                batch_class=new String[size];
-                batch_number=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    batch_subject[count]=JO.getString("batch_subject");
-                    batch_class[count]=JO.getString("batch_class");
-                    batch_number[count]=JO.getString("batch_number");
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-                    count++;
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    batch_subject = new String[size];
+                    batch_class = new String[size];
+                    batch_number = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        batch_subject[count] = JO.getString("batch_subject");
+                        batch_class[count] = JO.getString("batch_class");
+                        batch_number[count] = JO.getString("batch_number");
 
 
+                        count++;
+
+
+                    }
+                    if (batch_class != null) {
+                        adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if(batch_class!=null)
-                {
-                    adapter.swapCursor(getApplicationContext(),batch_subject,batch_class,batch_number);
-                }
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            else
+            {
+                Toast.makeText(Head_Batch.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 

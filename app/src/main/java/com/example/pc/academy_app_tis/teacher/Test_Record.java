@@ -19,6 +19,8 @@ import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.head.Students_details_adapter;
 import com.example.pc.academy_app_tis.head.head_navigation;
 
+import junit.framework.Test;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,24 +121,23 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
         protected void onPostExecute(String JSON_STRING) {
             JSONObject jsonObject;
             JSONArray jsonArray;
-            Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
-
+        if(JSON_STRING!=null) {
 
 
             try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
+                jsonObject = new JSONObject(JSON_STRING);
+                int count = 0;
 
 
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                name=new String[size];
-                names=new ArrayList<String>();
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    name[count]=JO.getString("username");
+                jsonArray = jsonObject.getJSONArray("server response");
+                int size = jsonArray.length();
+                name = new String[size];
+                names = new ArrayList<String>();
+                while (count < jsonArray.length()) {
+                    JSONObject JO = jsonArray.getJSONObject(count);
+                    name[count] = JO.getString("username");
                     names.add(name[count]);
 
                     count++;
@@ -148,18 +149,15 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
                 sub.setAdapter(arrayList);
 
 
-
-
-
-
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-
+        }
+        else
+        {
+            Toast.makeText(Test_Record.this,"No Internet",Toast.LENGTH_SHORT).show();
+        }
             super.onPostExecute(JSON_STRING);
         }
 
@@ -217,46 +215,44 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                username=new String[size];
-                marks=new String[size];
-
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    username[count]=JO.getString("username");
-                    marks[count]=JO.getString("marks_obtained");
-
-                    count++;
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    username = new String[size];
+                    marks = new String[size];
+
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        username[count] = JO.getString("username");
+                        marks[count] = JO.getString("marks_obtained");
+
+                        count++;
+
+
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Test_Record.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new Test_record_adapter(Test_Record.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.swapCursor(context, username, marks);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(Test_Record.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                adapter=new Test_record_adapter(Test_Record.this);
-                recyclerView.setAdapter(adapter);
-                adapter.swapCursor(context,username,marks);
-
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
+            else
+            {
+                Toast.makeText(Test_Record.this,"No Internet",Toast.LENGTH_SHORT).show();
+            }
 
             super.onPostExecute(JSON_STRING);
         }
