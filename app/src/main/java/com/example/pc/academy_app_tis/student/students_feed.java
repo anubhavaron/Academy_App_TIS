@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.teacher.Feed_Adapter;
@@ -57,46 +58,45 @@ public class students_feed extends AppCompatActivity implements  Feed_Adapter.Fe
             JSONArray jsonArray;
             //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
+            if(JSON_STRING!=null) {
 
 
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                String[] title_array = new String[size];
-                String[] message_Array=new String[size];
-                String[] fwion_array=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    fwion_array[count]=JO.getString("fwion");
-                    title_array[count]=JO.getString("title");
-                    message_Array[count]=JO.getString("message");
+                try {
+                    jsonObject = new JSONObject(JSON_STRING);
+                    int count = 0;
 
 
-                    count++;
+                    jsonArray = jsonObject.getJSONArray("server response");
+                    int size = jsonArray.length();
+                    String[] title_array = new String[size];
+                    String[] message_Array = new String[size];
+                    String[] fwion_array = new String[size];
+                    while (count < jsonArray.length()) {
+                        JSONObject JO = jsonArray.getJSONObject(count);
+                        fwion_array[count] = JO.getString("fwion");
+                        title_array[count] = JO.getString("title");
+                        message_Array[count] = JO.getString("message");
 
 
+                        count++;
+
+
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(students_feed.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new Feed_Adapter(students_feed.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.swapCursor(getApplicationContext(), title_array, message_Array, fwion_array);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                LinearLayoutManager layoutManager=new LinearLayoutManager(students_feed.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
-                adapter=new Feed_Adapter(students_feed.this);
-                recyclerView.setAdapter(adapter);
-                adapter.swapCursor(getApplicationContext(),title_array,message_Array,fwion_array);
-
-
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            else
+            {
+                Toast.makeText(students_feed.this,"No Internet",Toast.LENGTH_SHORT).show();
             }
 
 

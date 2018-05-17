@@ -28,6 +28,7 @@
         android:layout_marginRight="10dp"
         android:tint="#ffffff"
         android:id="@+id/Floating_41"
+        android:background="#000000"
         android:src="@drawable/ic_add_white_24dp"
         />
 

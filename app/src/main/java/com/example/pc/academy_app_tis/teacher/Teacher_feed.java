@@ -1,7 +1,11 @@
 package com.example.pc.academy_app_tis.teacher;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -68,6 +72,9 @@ public class Teacher_feed extends AppCompatActivity implements  Feed_Adapter.Fee
         setContentView(R.layout.activity_teacher_feed);
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_41);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_41);
+
+
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,6 +1,7 @@
 package com.example.pc.academy_app_tis.teacher;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -70,9 +72,27 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
     public void onBindViewHolder(Feed_Adapter.NUMBERVIEWHOLDER holder, int position) {
 
 
+        position=title.length-position-1;
+        if(position%2==0)
+        {
+            holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
 
+
+
+
+
+        }
+        else
+        {
+
+            holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
+
+
+        }
         holder.title.setText(title[position]);
         holder.message.setText(message[position]);
+
+
         if(fwion[position].equals("YES"))
         {   holder.imageView.setVisibility(View.VISIBLE);
             String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+title[position]+".jpg";
@@ -83,6 +103,7 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
                     .override(200, 200) // resizing
                     .centerCrop()
                     .into(holder.imageView);
+
 
         }
         else
@@ -113,6 +134,7 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
         TextView title;
         TextView message;
         ImageView imageView;
+        LinearLayout linearLayout;
         public NUMBERVIEWHOLDER(View view)
 
         {
@@ -121,42 +143,28 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
             title=(TextView)view.findViewById(R.id.title_43);
             message=(TextView)view.findViewById(R.id.message_43);
             imageView=(ImageView)view.findViewById(R.id.imageView_43);
+            linearLayout=(LinearLayout)view.findViewById(R.id.linear_layout_43);
+
 
 
             itemView.setOnClickListener(this);
 
 
         }
-
-
         @Override
         public void onClick(View v) {
             mClickHandler.onClick(getAdapterPosition());
-
         }
     }
     public void swapCursor(Context context,String title[],String message[],String fwion[]) {
         // Always close the previous mCursor first
-
         if (title != null) {
             // Force the RecyclerView to refresh
             this.title=title;
             this.message=message;
             this.fwion=fwion;
-
-
             this.context=context;
             this.notifyDataSetChanged();
         }
     }
-
-
-
-
-
-
-
-
-
-
 }
