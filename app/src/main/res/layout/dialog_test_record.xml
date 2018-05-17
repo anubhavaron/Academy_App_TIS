@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp">
+        android:layout_margin="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             <AutoCompleteTextView
                 android:layout_height="40dp"
                 android:layout_width="match_parent"
-                android:hint="Enter Test Name Here :"
+
                 android:textSize="17dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -55,7 +55,7 @@
 
                 android:layout_height="40dp"
                 android:layout_width="match_parent"
-                android:hint="Enter Max Marks :"
+
                 android:textSize="17dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"

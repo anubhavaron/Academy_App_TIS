@@ -1,18 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.pc.academy_app_tis.teacher.Teacher_new_test"
     android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@color/halke"
+
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="S No."
+            android:layout_weight="0.4"
+            android:layout_gravity="center"
+            android:gravity="center"
+
+            android:textSize="16dp"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:background="#000000"/>
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="Test Name"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:background="#000000"/>
+        <TextView
+            android:layout_width="0dp"
+            android:textSize="16dp"
+            android:layout_height="40dp"
+            android:text="Max.Marks"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
         android:background="@color/halke"
         android:id="@+id/recycler_29">
     </android.support.v7.widget.RecyclerView>
 
+
+
+
+</LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -26,6 +92,4 @@
         android:id="@+id/Floating_29"
         android:src="@drawable/ic_add_white_24dp"
         />
-
-
 </RelativeLayout>

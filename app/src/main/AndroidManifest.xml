@@ -16,7 +16,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="TIS"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -39,26 +39,38 @@
         <activity
             android:name=".head.fees"
             android:label="STUDENT&apos;S  FEES" />
-        <activity android:name=".teacher.Teacher_batch" />
+        <activity android:name=".teacher.Teacher_batch"
+            android:label="Batches"/>
         <activity
             android:name=".teacher.Teacher_navigation"
-            android:label="@string/title_activity_teacher_navigation"
+            android:label="TIS"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".teacher.Teachers_students" />
-        <activity android:name=".head.Wall_of_fame_head" />
-        <activity android:name=".teacher.Teachers_Wall_Of_Fame" />
-        <activity android:name=".teacher.Teacher_new_test" />
-        <activity android:name=".teacher.Test_Record" />
+        <activity android:name=".teacher.Teachers_students"
+            android:label="Students"/>
+        <activity android:name=".head.Wall_of_fame_head"
+            android:label="Hall Of Fame"/>
+        <activity android:name=".teacher.Teachers_Wall_Of_Fame"
+            android:label="Hall Of Fame"/>
+        <activity android:name=".teacher.Teacher_new_test"
+            android:label="Test List"/>
+        <activity android:name=".teacher.Test_Record"
+            android:label="Performance List"
+            />
         <activity android:name=".teacher.Teacher_feed" />
         <activity
             android:name=".student.Student_Navigation"
-            android:label="@string/title_activity_student__navigation"
+            android:label="TIS"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".student.student_batch" />
-        <activity android:name=".student.student_fees_activity" />
-        <activity android:name=".student.students_feed" />
-        <activity android:name=".student.student_test_records" />
-        <activity android:name=".You_Tube_links"></activity>
+        <activity android:name=".student.student_batch"
+            android:label="Batches"/>
+        <activity android:name=".student.student_fees_activity"
+            android:label="Fees Record"/>
+        <activity android:name=".student.students_feed"
+            android:label="Feed"/>
+        <activity android:name=".student.student_test_records"
+            android:label="Test Record"/>
+        <activity android:name=".You_Tube_links"
+            android:label="Online Lectures"></activity>
     </application>
 
 </manifest>

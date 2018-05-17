@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
+
     >
+
     <TextView
         android:layout_width="0dp"
-
         android:layout_height="wrap_content"
-
-        android:text="Test Name: "
+        android:id="@+id/s_no_30"
         android:textColor="@color/blue_dark"
+        android:text="Test Name: "
+        android:gravity="center"
         android:textSize="16dp"
-        android:textStyle="bold"
-        android:layout_weight="1"
-        android:gravity="center"/>
+        android:layout_weight="0.4"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000"/>
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,24 +32,27 @@
         android:text="Test Name: "
         android:gravity="center"
         android:textSize="16dp"
+        android:textStyle="italic"
         android:layout_weight="1"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/blue_dark"
-        android:text="Total Marks: "
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_weight="1"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000"/>
+
     <TextView
         android:layout_width="0dp"
         android:textSize="16dp"
         android:layout_height="wrap_content"
         android:id="@+id/marks_30"
+
         android:textColor="@color/blue_dark"
         android:gravity="center"
         android:text="Marks "
-        android:layout_weight=".4"/>
+        android:layout_weight="0.5"/>
 
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"/>
 </LinearLayout>

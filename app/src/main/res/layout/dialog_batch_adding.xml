@@ -20,7 +20,7 @@
 
             android:layout_height="30dp"
             android:layout_width="wrap_content"
-            android:text="Enter Batch Subject :"
+            android:text="Enter Subject :"
             android:textColor="#003f77"
 
 
@@ -48,7 +48,7 @@
 
         android:layout_height="30dp"
         android:layout_width="wrap_content"
-        android:text="Enter Batch Class :"
+        android:text="Enter Class :"
         android:textColor="#003f77"
         android:layout_margin="2dp"
         android:textStyle="bold"

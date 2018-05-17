@@ -1,11 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.pc.academy_app_tis.teacher.Teacher_navigation"
-    tools:showIn="@layout/app_bar_teacher_navigation">
+    tools:context="com.example.pc.academy_app_tis.student.Student_Navigation"
+    tools:showIn="@layout/app_bar_student__navigation"
+    android:background="@color/halke"
+    >
 
-</android.support.constraint.ConstraintLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPagers"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+
+        android:layout_marginBottom="8dp"
+        android:overScrollMode="never"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/SliderDotss"
+        android:layout_height="10dp"
+        android:layout_below="@+id/viewPagers"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center_horizontal">
+
+
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/SliderDotss">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#000000"
+            android:textSize="30dp"
+            android:text="About TIS Here"/>
+    </ScrollView>
+
+
+</RelativeLayout>

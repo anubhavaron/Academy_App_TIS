@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3ffdb"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.pc.academy_app_tis.login_signup"
     android:background="#f3ffdb"
     android:orientation="vertical">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
-
-        android:src="@drawable/untitled"
+        android:src="@drawable/tis_banner"
         android:scaleType="fitXY"
         android:layout_gravity="center"/>
     <View
@@ -140,4 +143,21 @@
 
 
 
+
 </LinearLayout>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="5dp"
+        android:background="@drawable/button"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/deve"
+        android:id="@+id/i_d"
+
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginRight="3dp"/>
+
+
+</RelativeLayout>

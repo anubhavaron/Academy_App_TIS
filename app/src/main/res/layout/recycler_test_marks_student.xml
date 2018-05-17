@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
+
     >
     <TextView
         android:layout_width="0dp"
@@ -14,16 +18,27 @@
         android:textSize="17dp"
         android:id="@+id/subject_104"
         android:layout_weight="1"
+        android:textStyle="italic|bold"
         android:gravity="center"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/name_104"
         android:textColor="@color/blue_dark"
+        android:textStyle="italic|bold"
         android:text="Test Name: "
         android:gravity="center"
+
         android:textSize="17dp"
         android:layout_weight="1"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -31,9 +46,14 @@
         android:textColor="@color/blue_dark"
         android:text="Total Marks: "
         android:textSize="17dp"
-
+        android:textStyle="italic|bold"
         android:gravity="center"
         android:layout_weight="1"/>
 
 
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"/>
 </LinearLayout>

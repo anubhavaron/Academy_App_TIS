@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.pc.academy_app_tis.teacher.Test_record_adapter;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by pc on 5/15/2018.
  */
@@ -52,6 +54,7 @@ public class you_tube_adapter extends RecyclerView.Adapter<you_tube_adapter.NUMB
 
 
         holder.sub.setText(name[position]);
+        holder.cl.setText((position+1)+".");
 
 
 
@@ -83,6 +86,7 @@ public class you_tube_adapter extends RecyclerView.Adapter<you_tube_adapter.NUMB
 
             super(view);
             sub=(TextView)view.findViewById(R.id.name_111);
+            cl=(TextView)view.findViewById(R.id.number_111);
 
 
 

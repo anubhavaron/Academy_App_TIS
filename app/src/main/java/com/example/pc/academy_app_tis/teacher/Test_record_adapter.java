@@ -54,7 +54,7 @@ public class Test_record_adapter extends RecyclerView.Adapter<Test_record_adapte
 
         holder.sub.setText(name[position]);
         holder.cl.setText(marks[position]);
-
+        holder.n.setText((position+1)+".");
 
 
 
@@ -85,6 +85,7 @@ public class Test_record_adapter extends RecyclerView.Adapter<Test_record_adapte
             super(view);
             sub=(TextView)view.findViewById(R.id.name_34);
             cl=(TextView)view.findViewById(R.id.marks_34);
+            n=(TextView)view.findViewById(R.id.number_34);
 
 
             itemView.setOnClickListener(this);

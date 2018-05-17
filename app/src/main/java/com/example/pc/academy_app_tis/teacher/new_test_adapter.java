@@ -1,5 +1,6 @@
 package com.example.pc.academy_app_tis.teacher;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.head.fees_adapter;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by pc on 4/27/2018.
@@ -47,6 +50,7 @@ public class new_test_adapter extends RecyclerView.Adapter<new_test_adapter.NUMB
 
     }
 
+
     @Override
     public void onBindViewHolder(new_test_adapter.NUMBERVIEWHOLDER holder, int position) {
 
@@ -54,7 +58,7 @@ public class new_test_adapter extends RecyclerView.Adapter<new_test_adapter.NUMB
 
         holder.sub.setText(test_name[position]);
         holder.cl.setText(marks[position]);
-
+        holder.n.setText((position+1)+".");
 
 
 
@@ -85,6 +89,8 @@ public class new_test_adapter extends RecyclerView.Adapter<new_test_adapter.NUMB
             super(view);
             sub=(TextView)view.findViewById(R.id.test_name_30);
             cl=(TextView)view.findViewById(R.id.marks_30);
+            n=(TextView)view.findViewById(R.id.s_no_30);
+
 
 
             itemView.setOnClickListener(this);

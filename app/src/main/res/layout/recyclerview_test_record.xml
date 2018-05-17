@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
 
+
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
+
     >
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Student: "
-        android:textColor="@color/blue_dark"
+        android:id="@+id/number_34"
         android:textSize="17dp"
-        android:layout_weight="1"
-        android:gravity="center"/>
+        android:textColor="@color/blue_dark"
+        android:text="1."
+        android:gravity="center"
+        android:layout_weight="0.4"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000"/>
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,17 +31,14 @@
         android:textSize="17dp"
         android:textColor="@color/blue_dark"
         android:text="Test Name: "
+        android:textStyle="italic"
         android:gravity="center"
         android:layout_weight="1"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/blue_dark"
-        android:textStyle="bold"
-        android:text="Marks: "
-        android:textSize="17dp"
-        android:gravity="center"
-        android:layout_weight="0.7"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#000000"/>
+
     <TextView
         android:layout_width="0dp"
         android:textSize="17dp"
@@ -42,4 +49,9 @@
         android:text="Marks "
         android:layout_weight="0.5"/>
 
+</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
 </LinearLayout>

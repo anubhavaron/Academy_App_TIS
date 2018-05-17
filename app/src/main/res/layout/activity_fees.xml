@@ -47,6 +47,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:id="@+id/subject_12"
                 android:textColor="@color/blue_dark"
@@ -58,7 +59,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
+
                 android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
@@ -69,7 +71,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textColor="#000000"
-                android:text="Class:"/>
+                android:text="Class"/>
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="20dp"
@@ -79,6 +81,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:id="@+id/class_12"
                 android:textColor="@color/blue_dark"
@@ -88,7 +91,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
             <TextView
@@ -100,7 +103,7 @@
                 android:textSize="17dp"
                 android:textStyle="bold"
                 android:textColor="#000000"
-                android:text="Number "/>
+                android:text="Batch No. "/>
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="20dp"
@@ -114,6 +117,7 @@
                 android:textColor="@color/blue_dark"
                 android:id="@+id/number_12"
                 android:textSize="17dp"
+                android:textStyle="bold"
                 android:layout_gravity="center"
                 android:text="Subject :"/>
             </LinearLayout>
@@ -135,6 +139,7 @@
             android:layout_height="wrap_content"
             android:text="Previous Fees"
             android:textColorHint="#000000"
+            android:layout_marginTop="5dp"
             android:background="@color/blue_dark"
             android:textColor="#ffffff"
             android:padding="5dp"
@@ -183,7 +188,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:padding="5dp"
+
         android:layout_height="200dp"
 
         android:id="@+id/recycler_12"

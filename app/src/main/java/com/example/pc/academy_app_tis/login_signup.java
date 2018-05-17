@@ -4,20 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.student.Student_Navigation;
+import com.example.pc.academy_app_tis.teacher.Background_new_test_add;
 import com.example.pc.academy_app_tis.teacher.Teacher_batch;
+import com.example.pc.academy_app_tis.teacher.Teacher_navigation;
+import com.example.pc.academy_app_tis.teacher.Teacher_new_test;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,16 +41,33 @@ import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 public class login_signup extends Activity {
+
     int status;
+
     String username;
+
     String password;
+
     String head_teacher_parent_student;
+
     RadioGroup radioGroup;
+
     RadioButton radioButton;
+
     EditText userName;
+
     EditText passWord;
+
+    ImageView i;
+
+    Button f;
+
+    Button d;
+
     Context context;
+
     ActionBar actionBar;
+
     public login_signup() throws ExecutionException, InterruptedException {
     }
 
@@ -50,6 +75,42 @@ public class login_signup extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
+        i=(ImageView)findViewById(R.id.i_d);
+        i.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder mBuilder=new AlertDialog.Builder(login_signup.this);
+                View mView=getLayoutInflater().inflate(R.layout.developers_profile,null);
+                final Button sub=(Button) mView.findViewById(R.id.fb_d);
+                final Button cl=(Button) mView.findViewById(R.id.gitb_d);
+
+                sub.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(login_signup.this,"f",Toast.LENGTH_SHORT).show();
+                        String url = "http://www.facebook.com/anubhav.aron.7";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
+                cl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                      //  Toast.makeText(login_signup.this,"g",Toast.LENGTH_SHORT).show();
+
+                        String url = "http://www.github.com/anubhavaron";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
+
+                mBuilder.setView(mView);
+                AlertDialog dialog=mBuilder.create();
+                dialog.show();
+            }
+        });
 
         //    Toast.makeText(login_signup.this,((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo()+"xx" ,Toast.LENGTH_SHORT).show();
 
@@ -85,6 +146,7 @@ public class login_signup extends Activity {
                 head_teacher_parent_student = "Student";
                 status = 3;
             }
+            Toast.makeText(login_signup.this,"Login",Toast.LENGTH_SHORT).show();
             new Background_login().execute();
             }
             // one of the radio buttons is checked
@@ -210,7 +272,7 @@ public class login_signup extends Activity {
                 URL url=new URL(json_url);
 
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setConnectTimeout(7000);
+                   // httpURLConnection.setConnectTimeout(7000);
                 try {
                     InputStream inputStream = httpURLConnection.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
