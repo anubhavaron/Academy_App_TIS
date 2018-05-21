@@ -102,7 +102,7 @@ public class student_fees_activity extends AppCompatActivity implements com.exam
                 }
 
                 Toast.makeText(getApplicationContext(),count+"         hello",Toast.LENGTH_LONG).show();
-                adapter.swapCursor(getApplicationContext(),start_date,end_date,amount);
+                adapter.swapCursor(getApplicationContext(),start_date,amount,end_date);
 
             } catch (JSONException e) {
                 e.printStackTrace();

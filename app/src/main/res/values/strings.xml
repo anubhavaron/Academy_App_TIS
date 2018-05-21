@@ -9,4 +9,5 @@
     <string name="title_activity_head__batch">Head_Batch</string>
     <string name="title_activity_teacher_navigation">Teacher_navigation</string>
     <string name="title_activity_student__navigation">Student_Navigation</string>
+    <string name="about_Tis"></string>
 </resources>

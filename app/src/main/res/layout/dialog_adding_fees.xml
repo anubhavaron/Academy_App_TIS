@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Date"
+        android:text="Enter Month"
         android:padding="4dp"
         android:textColor="#003f77"
         android:textStyle="bold"
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="End Date"
+        android:text="Enter Date of Submission"
         android:padding="4dp"
         android:textColor="#003f77"
         android:textStyle="bold"

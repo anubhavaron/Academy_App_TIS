@@ -75,7 +75,7 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
         position=title.length-position-1;
         if(position%2==0)
         {
-            holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
+           // holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
 
 
 
@@ -85,7 +85,7 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
         else
         {
 
-            holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
+           // holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
 
 
         }

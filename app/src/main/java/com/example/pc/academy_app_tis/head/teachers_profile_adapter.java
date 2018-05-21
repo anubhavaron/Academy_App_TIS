@@ -1,6 +1,10 @@
 package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.pc.academy_app_tis.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by pc on 4/23/2018.
@@ -49,20 +56,30 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
     }
 
     @Override
-    public void onBindViewHolder(teachers_profile_adapter.NUMBERVIEWHOLDER holder, int position) {
+    public void onBindViewHolder(final teachers_profile_adapter.NUMBERVIEWHOLDER holder, int position) {
 
 
 
         holder.name.setText(username[position]);
         holder.description.setText(description[position]);
         String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+username[position]+".jpg";
-        Glide.with(context)
+        /*Glide.with(context)
                 .load(url) // image url
                 .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
                 .error(R.drawable.ic_people_black_24dp)  // any image in case of error
                 .override(200, 200) // resizing
                 .centerCrop()
-                .into(holder.imageView);
+                .into(holder.imageView);*/
+
+        Glide.with(context).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.imageView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                holder.imageView.setImageDrawable(circularBitmapDrawable);
+            }
+        });
 
 
 
@@ -86,6 +103,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
     {
         TextView name;
         TextView description;
+
         ImageView imageView;
         public NUMBERVIEWHOLDER(View view)
 

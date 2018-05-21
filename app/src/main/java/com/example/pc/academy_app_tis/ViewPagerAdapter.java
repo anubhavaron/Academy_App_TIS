@@ -16,7 +16,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private Integer [] images = {R.drawable.tis_banner,R.drawable.p5,R.drawable.p4};
+    private Integer [] images = {R.drawable.tis_banner,R.drawable.p5};
 
     public ViewPagerAdapter(Context context) {
         this.context = context;

@@ -157,7 +157,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="START DATE"
+                android:text=" Month"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="#000000"
@@ -165,11 +165,11 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="END DATE"
+                android:text="Submission Date"
                 android:textColor="#000000"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_weight="1"/>
+                android:layout_weight="1.4"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -177,7 +177,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:text="AMOUNT"/>
+                android:text="Amount"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

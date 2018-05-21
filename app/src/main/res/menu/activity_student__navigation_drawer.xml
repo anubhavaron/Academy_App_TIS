@@ -23,7 +23,7 @@
         <item
             android:id="@+id/wall_of_fame_navi"
             android:icon="@drawable/wall_of_fame"
-            android:title="Wall Of Fame" />
+            android:title="Hall Of Fame" />
         <item
             android:id="@+id/You_tube_s"
             android:icon="@drawable/ic_people_black_24dp"
