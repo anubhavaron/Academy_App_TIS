@@ -4,9 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
-    android:paddingTop="2.2dp"
+    android:paddingTop="3dp"
     android:paddingBottom="0.3dp"
     android:background="#668c18"
+
 
 
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -54,8 +55,8 @@
                 android:layout_marginTop="3dp"
                 android:textStyle="italic"
                 android:id="@+id/message_43"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginBottom="3dp"/>
 
         </LinearLayout>

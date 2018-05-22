@@ -26,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.student.student_test_records;
@@ -66,6 +67,7 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachers_profile);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_9);
+        Glide.get(teachers_profile.this).clearMemory();
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_9);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
