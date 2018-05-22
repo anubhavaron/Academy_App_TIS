@@ -96,7 +96,7 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
 
     @Override
     public void onClick(int x) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(links[x])));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(links[links.length-x-1])));
     }
 
 

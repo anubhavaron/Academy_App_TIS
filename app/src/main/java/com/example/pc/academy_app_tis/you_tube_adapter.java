@@ -53,7 +53,7 @@ public class you_tube_adapter extends RecyclerView.Adapter<you_tube_adapter.NUMB
 
 
 
-        holder.sub.setText(name[position]);
+        holder.sub.setText(name[name.length-position-1]);
         holder.cl.setText((position+1)+".");
 
 
