@@ -55,7 +55,7 @@ public interface Head_Batch_AdapterOnClickHandler
 
 
        holder.sub.setText(batch_subject[position]);
-        holder.cl.setText(batch_class[position]);
+       holder.cl.setText(batch_class[position]);
         holder.n.setText(batch_number[position]);
 
 

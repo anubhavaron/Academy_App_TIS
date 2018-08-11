@@ -29,7 +29,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
 
     String username[];
     String description[];
-
+    String photoname[];
 
 
 
@@ -64,7 +64,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
 
         holder.name.setText(username[position]);
         holder.description.setText(description[position]);
-        String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+username[position]+".jpg";
+        String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+photoname[position]+".jpg";
         /*Glide.with(context)
                 .load(url) // image url
                 .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
@@ -129,24 +129,18 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
             mClickHandler.onClick(getAdapterPosition());
         }
     }
-    public void swapCursor(Context context,String name[],String description[]) {
+    public void swapCursor(Context context,String name[],String description[],String photoname[]) {
         // Always close the previous mCursor first
 
         if (name != null) {
             // Force the RecyclerView to refresh
             this.username=name;
             this.description=description;
+            this.photoname=photoname;
 
 
             this.context=context;
             this.notifyDataSetChanged();
         }
     }
-
-
-
-
-
-
-
 }

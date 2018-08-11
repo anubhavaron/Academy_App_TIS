@@ -2,6 +2,8 @@ package com.example.pc.academy_app_tis.head;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -25,6 +27,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
+import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +49,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Wall_of_fame_head extends AppCompatActivity implements  Wall_of_fame_Adapter.Wall_of_fame_AdapterOnClickHandler {
@@ -50,9 +63,11 @@ Button t_button;
 
 String title[];
 String description[];
+ArrayList<ParseFile> file;
 
 Wall_of_fame_Adapter adapter;
 RecyclerView recyclerView;
+
     private final int IMG_REQUEST=1;
     String UploadUrl="https://tisabcd12.000webhostapp.com/head/adding_wall_fame.php";
     Bitmap bitmap;
@@ -61,9 +76,35 @@ RecyclerView recyclerView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall_of_fame_head);
 
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
+
+
+
+
+
+
+
+
+
 
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_23);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_23);
+
+
+
+
+
+
+
+
+
+
+
+
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +126,25 @@ RecyclerView recyclerView;
                     public void onClick(View v) {
                         t_button.setEnabled(false);
                         t_button.setVisibility(View.GONE);
-                        uploadImage();
+
+                        byte[] data = imageToString(bitmap);
+                        ParseFile file = new ParseFile("image", data);
+
+                        ParseObject gameScore = new ParseObject("wall_of_fame_table");
+                        gameScore.put("image", file);
+                        gameScore.put("description", t_description.getText().toString().trim());
+                        gameScore.put("title", t_name.getText().toString().trim());
+                       // gameScore.put("batch_number", n.getText().toString());
+                        //gameScore.put("subject_class_number", sub.getText().toString()+"_"+);
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(Wall_of_fame_head.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                                Background_wall_of_fame_parse();
+                               // Background_details_of_batch();
+                            }
+                        });
+                        //uploadImage();
                     }
                 });
 
@@ -103,11 +162,61 @@ RecyclerView recyclerView;
         recyclerView.setHasFixedSize(true);
         adapter=new Wall_of_fame_Adapter(Wall_of_fame_head.this);
         recyclerView.setAdapter(adapter);
-        Background_getting_wall_fame background_getting_wall_fame=new Background_getting_wall_fame();
-        background_getting_wall_fame.execute();
+       // Background_getting_wall_fame background_getting_wall_fame=new Background_getting_wall_fame();
+        //background_getting_wall_fame.execute();
+        Background_wall_of_fame_parse();
 
 
     }
+
+
+    void Background_wall_of_fame_parse()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("wall_of_fame_table");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(Wall_of_fame_head.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        int count = 0;
+
+
+                      //  jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        title = new String[size];
+                        description = new String[size];
+                        file=new ArrayList<ParseFile>(size);
+                        while (count < scoreList.size()) {
+                            //JSONObject JO = jsonArray.getJSONObject(count);
+                            title[count] = scoreList.get(count).getString("title");
+                            description[count] = scoreList.get(count).getString("description");
+                            file.add(count,scoreList.get(count).getParseFile("image"));
+                            count++;
+
+
+                        }
+
+                        adapter.swapCursor(getApplicationContext(), title, description,file);
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(Wall_of_fame_head.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+    }
+
     private void selectImage()
     {
         Intent intent=new Intent();
@@ -137,7 +246,7 @@ RecyclerView recyclerView;
 
 
 
-
+/*
 
     private void uploadImage()
     {
@@ -155,8 +264,8 @@ RecyclerView recyclerView;
                             Background_getting_wall_fame background_getting_wall_fame=new Background_getting_wall_fame();
                             background_getting_wall_fame.execute();
 
-                           /* Intent i=new Intent(teachers_profile.this,teachers_profile.class);
-                            startActivity(i);*/
+                            Intent i=new Intent(teachers_profile.this,teachers_profile.class);
+                            startActivity(i);
 
 
 
@@ -176,7 +285,7 @@ RecyclerView recyclerView;
         })
 
         {
-            @Override
+            Override
             protected Map<String , String> getParams() throws AuthFailureError
             {
                 Map<String,String> params=new HashMap<>();
@@ -190,7 +299,7 @@ RecyclerView recyclerView;
             }
         };
         MySingleton.getInstance(Wall_of_fame_head.this).addToRequestQueue(stringRequest);
-    }
+    }*/
 
 
     private String imageToSTring(Bitmap bitmap)
@@ -199,6 +308,15 @@ RecyclerView recyclerView;
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] imgBytes=byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgBytes,Base64.DEFAULT);
+
+    }
+    private byte[] imageToString(Bitmap bitmap)
+    {
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte[] imgBytes=byteArrayOutputStream.toByteArray();
+        return imgBytes;
+       // return Base64.encodeToString(imgBytes,Base64.DEFAULT);
 
     }
 
@@ -245,7 +363,7 @@ RecyclerView recyclerView;
 
                     }
 
-                    adapter.swapCursor(getApplicationContext(), title, description);
+                  //  adapter.swapCursor(getApplicationContext(), title, description);
 
 
                 } catch (JSONException e) {

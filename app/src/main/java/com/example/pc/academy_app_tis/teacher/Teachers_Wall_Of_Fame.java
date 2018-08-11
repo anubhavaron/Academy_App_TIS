@@ -90,7 +90,7 @@ public class Teachers_Wall_Of_Fame extends AppCompatActivity implements Wall_of_
 
                     }
 
-                    adapter.swapCursor(getApplicationContext(), title, description);
+                    //adapter.swapCursor(getApplicationContext(), title, description);
 
 
                 } catch (JSONException e) {

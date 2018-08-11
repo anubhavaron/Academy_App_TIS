@@ -18,6 +18,16 @@ import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.MainActivity;
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.login_signup;
+import com.example.pc.academy_app_tis.student.Student_Navigation;
+import com.example.pc.academy_app_tis.teacher.Teacher_batch;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +40,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.Head_Batch_AdapterOnClickHandler {
     RecyclerView recyclerView;
@@ -43,6 +54,10 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_head__batch);
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         recyclerView=(RecyclerView)findViewById(R.id.recycler_3);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -63,12 +78,25 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
                     public void onClick(View v) {
                         add.setEnabled(false);
                         add.setVisibility(View.GONE);
+                        ParseObject gameScore = new ParseObject("batch_table");
+                        gameScore.put("batch_subject", sub.getText().toString());
+                        gameScore.put("batch_class", cl.getText().toString());
+                        gameScore.put("batch_number", n.getText().toString());
+                        //gameScore.put("subject_class_number", sub.getText().toString()+"_"+);
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(Head_Batch.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                                Background_details_of_batch();
+                            }
+                        });
 
-                        Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
+                        //Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
 
-                        background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());
-                        Background_batch_details background_batch_details=new Background_batch_details();
-                        background_batch_details.execute();
+                   //     background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());
+                       /* Background_batch_details background_batch_details=new Background_batch_details();
+                        background_batch_details.execute();*/
+                        Background_details_of_batch();
 
                     }
                 });
@@ -80,8 +108,67 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
 
 
         recyclerView.setAdapter(adapter);
-        Background_batch_details background_batch_details=new Background_batch_details();
-        background_batch_details.execute();
+        //Background_batch_details background_batch_details=new Background_batch_details();
+        //background_batch_details.execute();
+
+        Background_details_of_batch();
+
+    }
+
+
+    void Background_details_of_batch()
+    {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("batch_table");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(Head_Batch.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        int count=0;
+
+                        int size = scoreList.size();
+                        batch_subject = new String[size];
+                        batch_class = new String[size];
+                        batch_number = new String[size];
+                        while (count < size) {
+
+                            batch_subject[count] = scoreList.get(count).getString("batch_subject");
+                            batch_class[count] = scoreList.get(count).getString("batch_class");
+                            batch_number[count] = scoreList.get(count).getString("batch_number");
+
+
+                            count++;
+
+
+                        }
+                        if (batch_class != null) {
+                            adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
+                        }
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(Head_Batch.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+
+
+
+
+
 
     }
     @Override
@@ -133,12 +220,13 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
         intent.putExtra("batch_subject", batch_subject[x]);
         intent.putExtra("batch_class", batch_class[x]);
         intent.putExtra("batch_number", batch_number[x]);
+        Toast.makeText(Head_Batch.this,batch_subject[x]+batch_class[x]+batch_number[x]+"",Toast.LENGTH_LONG).show();
 
         startActivity(intent);
 
 
     }
-
+    /*
     public class Background_batch_details extends AsyncTask<Void,Void,String>
     {   String json_url="https://tisabcd12.000webhostapp.com/head/batches_details.php";
 
@@ -231,5 +319,5 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
 
             return null;
         }
-    }
+    }*/
 }

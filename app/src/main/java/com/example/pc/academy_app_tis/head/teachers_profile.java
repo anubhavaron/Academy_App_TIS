@@ -49,6 +49,7 @@ import java.util.Map;
 public class teachers_profile extends AppCompatActivity implements teachers_profile_adapter.teachers_profile_adapterOnClickHandler {
     String name[];
     String description[];
+    String photoname[];
     RecyclerView recyclerView;
     teachers_profile_adapter adapter;
     Context context;
@@ -260,11 +261,12 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
                     int size = jsonArray.length();
                     name = new String[size];
                     description = new String[size];
+                    photoname=new String[size];
                     while (count < jsonArray.length()) {
                         JSONObject JO = jsonArray.getJSONObject(count);
                         name[count] = JO.getString("name");
                         description[count] = JO.getString("description");
-
+                        photoname[count]=JO.getString("photoname");
                         count++;
 
 
@@ -274,7 +276,7 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
                     recyclerView.setHasFixedSize(true);
                     adapter = new teachers_profile_adapter(teachers_profile.this);
                     recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, name, description);
+                    adapter.swapCursor(context, name, description,photoname);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

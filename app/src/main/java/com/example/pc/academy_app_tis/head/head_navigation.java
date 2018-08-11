@@ -61,7 +61,7 @@ public class head_navigation extends AppCompatActivity
     static String batch_subject;
     static String batch_class;
     static String batch_number;
-
+    String photoname[];
     RecyclerView recyclerView;
     Context context;
     Students_details_adapter adapter;
@@ -284,7 +284,7 @@ public class head_navigation extends AppCompatActivity
         protected void onPostExecute(String JSON_STRING) {
             JSONObject jsonObject;
             JSONArray jsonArray;
-            //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
             if(JSON_STRING!=null) {
@@ -298,10 +298,11 @@ public class head_navigation extends AppCompatActivity
                     jsonArray = jsonObject.getJSONArray("server response");
                     int size = jsonArray.length();
                     name = new String[size];
+                    photoname=new String[size];
                     while (count < jsonArray.length()) {
                         JSONObject JO = jsonArray.getJSONObject(count);
-                        name[count] = JO.getString("username");
-
+                        photoname[count] = JO.getString("username");
+                        name[count]=JO.getString("batch_subject");
                         count++;
 
 
@@ -311,7 +312,7 @@ public class head_navigation extends AppCompatActivity
                     recyclerView.setHasFixedSize(true);
                     adapter = new Students_details_adapter(head_navigation.this);
                     recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, name);
+                    adapter.swapCursor(context, name,photoname);
 
 
                 } catch (JSONException e) {
@@ -483,6 +484,8 @@ public class head_navigation extends AppCompatActivity
             public void onErrorResponse(VolleyError error) {
 
                 Toast.makeText(head_navigation.this,"Error",Toast.LENGTH_SHORT).show();
+                Background_getting_students background_getting_students=new Background_getting_students();
+                background_getting_students.execute();
             }
         })
 

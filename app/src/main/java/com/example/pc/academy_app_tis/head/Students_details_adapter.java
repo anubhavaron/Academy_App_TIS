@@ -26,7 +26,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
 
 
     String name[];
-
+    String photoname[];
 
 
 
@@ -61,7 +61,7 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
         String x=name[position].substring(0,name[position].length()-2);
 
         holder.textView.setText(x);
-        String url="https://tisabcd12.000webhostapp.com/student/photos/"+name[position]+".jpg";
+       String url="https://tisabcd12.000webhostapp.com/student/photos/"+photoname[position]+".jpg";
         Glide.with(context)
                 .load(url) // image url
                .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
@@ -112,12 +112,13 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
 
         }
     }
-    public void swapCursor(Context context,String name[]) {
+    public void swapCursor(Context context,String name[],String photoname[]) {
         // Always close the previous mCursor first
 
         if (name != null) {
             // Force the RecyclerView to refresh
             this.name=name;
+            this.photoname=photoname;
 
             this.context=context;
             this.notifyDataSetChanged();

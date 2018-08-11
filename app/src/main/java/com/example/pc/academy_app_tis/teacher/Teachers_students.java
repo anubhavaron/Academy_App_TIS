@@ -28,6 +28,7 @@ public class Teachers_students extends AppCompatActivity implements  Students_de
     Students_details_adapter adapter;
     RecyclerView recyclerView;
     String name[];
+    String photoname[];
     Context context;
 
     @Override
@@ -62,7 +63,7 @@ public class Teachers_students extends AppCompatActivity implements  Students_de
         protected void onPostExecute(String JSON_STRING) {
             JSONObject jsonObject;
             JSONArray jsonArray;
-            //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
             if(JSON_STRING!=null) {
@@ -75,9 +76,11 @@ public class Teachers_students extends AppCompatActivity implements  Students_de
                     jsonArray = jsonObject.getJSONArray("server response");
                     int size = jsonArray.length();
                     name = new String[size];
+                    photoname=new String[size];
                     while (count < jsonArray.length()) {
                         JSONObject JO = jsonArray.getJSONObject(count);
-                        name[count] = JO.getString("username");
+                        photoname[count] = JO.getString("username");
+                        name[count]=JO.getString("batch_subject");
 
                         count++;
 
@@ -88,7 +91,7 @@ public class Teachers_students extends AppCompatActivity implements  Students_de
                     recyclerView.setHasFixedSize(true);
                     adapter = new Students_details_adapter(Teachers_students.this);
                     recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, name);
+                    adapter.swapCursor(context, name,photoname);
 
 
                 } catch (JSONException e) {
