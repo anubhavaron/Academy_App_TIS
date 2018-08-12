@@ -16,8 +16,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.You_Tube_links;
 import com.example.pc.academy_app_tis.head.Students_details_adapter;
+import com.example.pc.academy_app_tis.head.fees;
+import com.example.pc.academy_app_tis.head.fees_adapter;
 import com.example.pc.academy_app_tis.head.head_navigation;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import junit.framework.Test;
 
@@ -33,6 +43,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Test_Record extends AppCompatActivity implements Test_record_adapter.Test_record_adapterOnClickHandler {
     String test_name;
@@ -53,11 +64,20 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test__record);
+
+
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
+
         test_name=getIntent().getStringExtra("test_name");
         test_marks=getIntent().getStringExtra("total_marks");
         Toast.makeText(Test_Record.this,test_name+test_marks,Toast.LENGTH_LONG).show();
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_32);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_32);
+
         context=getApplicationContext();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,24 +88,37 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
                 View mView=getLayoutInflater().inflate(R.layout.dialog_test_record,null);
                  sub=(AutoCompleteTextView) mView.findViewById(R.id.name_33);
                 final EditText cl=(EditText)mView.findViewById(R.id.marks_33);
-                Background_getting_students_here background_getting_students_here=new Background_getting_students_here();
-                background_getting_students_here.execute();
+
+
 
                 final Button add=(Button)mView.findViewById(R.id.add_33);
+                getting_names();
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         add.setEnabled(false);
                         add.setVisibility(View.GONE);
 
+                        ParseObject gameScore = new ParseObject("test_record_table");
+                        gameScore.put("test_name", test_name);
+                        gameScore.put("username", sub.getText().toString());
+                        gameScore.put("batch_subject",Teacher_navigation.batch_subject);
+                        gameScore.put("batch_class", Teacher_navigation.batch_class);
+                        gameScore.put("batch_number", Teacher_navigation.batch_number);
+                        gameScore.put("total_marks", test_marks);
+                        gameScore.put("marks_obtained", Integer.parseInt(cl.getText().toString()));
 
-                       Background_test_record background_new_test_add=new Background_test_record(Test_Record.this);
-                        background_new_test_add.execute(Teacher_navigation.batch_subject,Teacher_navigation.batch_class,Teacher_navigation.batch_number,test_name,sub.getText().toString(),cl.getText().toString(),test_marks);
 
-                        new Background_getting_test_here().execute();
-                   /*     Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
 
-                        background_task_add_batches.execute(sub.getText().toString(),cl.getText().toString(),n.getText().toString());*/
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(Test_Record.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                               // Background_youtube_links();
+                                getting_test_record();
+                            }
+                        });
+
 
 
                     }
@@ -96,201 +129,133 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
 
             }
         });
-        new Background_getting_test_here().execute();
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        adapter=new Test_record_adapter(Test_Record.this);
+        recyclerView.setAdapter(adapter);
+        getting_test_record();
 
 
+
+    }
+    void getting_test_record()
+    {
+
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("test_record_table");
+        query.whereEqualTo("batch_subject",Teacher_navigation.batch_subject);
+        query.whereEqualTo("batch_class",Teacher_navigation.batch_class);
+        query.whereEqualTo("batch_number",Teacher_navigation.batch_number);
+        query.whereEqualTo("test_name",test_name);
+        query.orderByDescending("marks_obtained");
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(Test_Record.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+                        //f_adapter.swapCursor(getApplicationContext(), null, null, null);
+
+                    }
+                    else {
+
+                        int count = 0;
+
+
+                        //jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        username = new String[size];
+                        marks = new String[size];
+
+                        while (count < size) {
+
+                            username[count] = scoreList.get(count).getString("username");
+                            marks[count] = Integer.toString(scoreList.get(count).getInt("marks_obtained"));
+                            //amount[count] = scoreList.get(count).getString("amount");
+
+
+                            count++;
+
+
+                        }
+
+                        //Toast.makeText(getApplicationContext(), count + "         hello", Toast.LENGTH_LONG).show();
+                        adapter.swapCursor(getApplicationContext(), username, marks);
+
+
+
+                    }
+                } else {
+                    Toast.makeText(Test_Record.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(int x) {
 
     }
+    void getting_names()
+    {
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("login_table");
+        query.whereEqualTo("batch_subject",Teacher_navigation.batch_subject);
+        query.whereEqualTo("batch_class",Teacher_navigation.batch_class);
+        query.whereEqualTo("batch_number",Teacher_navigation.batch_number);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
 
-    class Background_getting_students_here extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/head/getting_students.php?batch_subject="+ Teacher_navigation.batch_subject+"&batch_class="+Teacher_navigation.batch_class+"&batch_number="+Teacher_navigation.batch_number;
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(Test_Record.this,"Nothing_Found",Toast.LENGTH_LONG).show();
 
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
+                    }
+                    else {
 
-
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
-
-        if(JSON_STRING!=null) {
-
-
-            try {
-                jsonObject = new JSONObject(JSON_STRING);
-                int count = 0;
-
-
-                jsonArray = jsonObject.getJSONArray("server response");
-                int size = jsonArray.length();
-                name = new String[size];
-                names = new ArrayList<String>();
-                while (count < jsonArray.length()) {
-                    JSONObject JO = jsonArray.getJSONObject(count);
-                    name[count] = JO.getString("username");
-                    names.add(name[count]);
-
-                    count++;
-
-
-                }
-                arrayList = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, names);
-                arrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                sub.setAdapter(arrayList);
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        else
-        {
-            Toast.makeText(Test_Record.this,"No Internet",Toast.LENGTH_SHORT).show();
-        }
-            super.onPostExecute(JSON_STRING);
-        }
+                        Toast.makeText(Test_Record.this,scoreList.size()+"",Toast.LENGTH_LONG).show();
+                        int count = 0;
+                       ArrayList<String> names = new ArrayList<String>();
 
 
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
+                        int size = scoreList.size();
+                        name = new String[size];
+                        while (count < size) {
 
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
+                            name[count] = scoreList.get(count).getString("username");
+                            names.add(name[count]);
 
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                            count++;
 
 
-            return null;
-        }
-    }
+                        }
 
 
-    class Background_getting_test_here extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/teacher/getting_test.php?batch_subject="+Teacher_navigation.batch_subject+"&batch_class="+Teacher_navigation.batch_class+"&batch_number="+Teacher_navigation.batch_number+"&test_name="+test_name;
+                        arrayList = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, names);
+                        arrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        sub.setAdapter(arrayList);
 
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-            //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
-
-            if(JSON_STRING!=null) {
-
-
-                try {
-                    jsonObject = new JSONObject(JSON_STRING);
-                    int count = 0;
-
-
-                    jsonArray = jsonObject.getJSONArray("server response");
-                    int size = jsonArray.length();
-                    username = new String[size];
-                    marks = new String[size];
-
-                    while (count < jsonArray.length()) {
-                        JSONObject JO = jsonArray.getJSONObject(count);
-                        username[count] = JO.getString("username");
-                        marks[count] = JO.getString("marks_obtained");
-
-                        count++;
 
 
                     }
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(Test_Record.this);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setHasFixedSize(true);
-                    adapter = new Test_record_adapter(Test_Record.this);
-                    recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, username, marks);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(Test_Record.this,"Connection_problem",Toast.LENGTH_LONG).show();
                 }
             }
-            else
-            {
-                Toast.makeText(Test_Record.this,"No Internet",Toast.LENGTH_SHORT).show();
-            }
-
-            super.onPostExecute(JSON_STRING);
-        }
+        });
 
 
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
     }
+
+
+
+
+
+
+
 }
