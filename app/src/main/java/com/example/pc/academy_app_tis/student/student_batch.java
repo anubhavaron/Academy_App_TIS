@@ -9,8 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.You_Tube_links;
 import com.example.pc.academy_app_tis.head.Head_Batch;
 import com.example.pc.academy_app_tis.head.Head_Batch_Adapter;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +30,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class student_batch extends AppCompatActivity implements Batch_Adapter.Batch_AdapterOnClickHandler {
     String batch_subject[];
@@ -39,6 +47,11 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_batch);
 
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         recyclerView=(RecyclerView)findViewById(R.id.recycler_51);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -46,10 +59,60 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
 
         adapter=new Batch_Adapter(student_batch.this);
         recyclerView.setAdapter(adapter);
-        Background_batch_from_id background_batch_from_id=new Background_batch_from_id();
-        background_batch_from_id.execute();
+        getting_batches();
     }
 
+    void getting_batches()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("login_table");
+        query.whereEqualTo("username",Student_Navigation.username);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(student_batch.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+
+
+                        int count = 0;
+
+
+                        // jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        batch_subject = new String[size];
+                        batch_class=new String[size];
+                        batch_number = new String[size];
+
+                        while (count < size) {
+                            //getJSONObject(count);
+                            batch_subject[count] = scoreList.get(count).getString("batch_subject");
+                            batch_class[count] = scoreList.get(count).getString("batch_class");
+                            batch_number[count] = scoreList.get(count).getString("batch_number");
+
+                            count++;
+
+
+                        }
+
+                        adapter.swapCursor(getApplicationContext(), batch_subject,batch_class,batch_number);
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(student_batch.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+    }
     @Override
     public void onClick(int x) {
         subject_s=batch_subject[x];
@@ -61,100 +124,5 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
     }
 
 
-    public class Background_batch_from_id extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/student/getting_batches.php?username="+Student_Navigation.username;
 
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-
-
-
-                if(JSON_STRING!=null) {
-                    try {
-                        jsonObject = new JSONObject(JSON_STRING);
-                        int count = 0;
-
-
-                        jsonArray = jsonObject.getJSONArray("server response");
-                        int size = jsonArray.length();
-                        batch_subject = new String[size];
-                        batch_class = new String[size];
-                        batch_number = new String[size];
-                        while (count < jsonArray.length()) {
-                            JSONObject JO = jsonArray.getJSONObject(count);
-                            batch_subject[count] = JO.getString("batch_subject");
-                            batch_class[count] = JO.getString("batch_class");
-                            batch_number[count] = JO.getString("batch_number");
-
-
-                            count++;
-
-
-                        }
-                        if (batch_class != null) {
-                            adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
-                            Toast.makeText(getApplicationContext(), "Click to see Feed", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-                else
-                {
-                    Toast.makeText(student_batch.this,"No Internet",Toast.LENGTH_SHORT).show();
-                }
-
-
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
 }

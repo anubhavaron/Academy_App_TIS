@@ -9,7 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.head.fees;
 import com.example.pc.academy_app_tis.head.head_navigation;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +29,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class student_fees_activity extends AppCompatActivity implements com.example.pc.academy_app_tis.head.fees_adapter.fees_adapterOnClickHandler {
     String start_date[];
@@ -35,6 +43,11 @@ public class student_fees_activity extends AppCompatActivity implements com.exam
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_fees_activity);
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         recyclerView=(RecyclerView)findViewById(R.id.recycler_53);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -47,8 +60,59 @@ public class student_fees_activity extends AppCompatActivity implements com.exam
         adapter=new com.example.pc.academy_app_tis.head.fees_adapter(student_fees_activity.this);
         recyclerView.setAdapter(adapter);
 
-        new Background_getting_fees().execute();
+        //new Background_getting_fees().execute();
+        getting_previous_fees();
 
+    }
+
+
+
+    void getting_previous_fees()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("fees_table");
+        query.whereEqualTo("username",Student_Navigation.username);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(student_fees_activity.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+
+                        int count = 0;
+
+
+                        //jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        start_date = new String[size];
+                        end_date = new String[size];
+                        amount = new String[size];
+                        while (count < size) {
+
+                            start_date[count] = scoreList.get(count).getString("start_date");
+                            end_date[count] = scoreList.get(count).getString("end_date");
+                            amount[count] = scoreList.get(count).getString("batch_subject");
+
+
+                            count++;
+
+
+                        }
+
+                        //Toast.makeText(getApplicationContext(), count + "         hello", Toast.LENGTH_LONG).show();
+                        adapter.swapCursor(getApplicationContext(), amount, end_date, start_date);
+
+
+
+                    }
+                } else {
+                    Toast.makeText(student_fees_activity.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -57,95 +121,5 @@ public class student_fees_activity extends AppCompatActivity implements com.exam
     }
 
 
-    class Background_getting_fees extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/student/getting_fees.php?username="+username;
 
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-             Toast.makeText(getApplicationContext(),Student_Navigation.username+ student_batch.subject_s+student_batch.class_s+student_batch.number_s,Toast.LENGTH_LONG).show();
-
-
-
-
-            try {
-                jsonObject=new JSONObject(JSON_STRING);
-                int count=0;
-
-
-
-                jsonArray=jsonObject.getJSONArray("server response");
-                int size=jsonArray.length();
-                start_date=new String[size];
-                end_date=new String[size];
-                amount=new String[size];
-                while(count<jsonArray.length())
-                {
-                    JSONObject JO=jsonArray.getJSONObject(count);
-                    start_date[count]=JO.getString("batch_subject");
-                    end_date[count]=JO.getString("start_date");
-                    amount[count]=JO.getString("end_date");
-
-
-                    count++;
-
-
-                }
-
-                Toast.makeText(getApplicationContext(),count+"         hello",Toast.LENGTH_LONG).show();
-                adapter.swapCursor(getApplicationContext(),start_date,amount,end_date);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
 }

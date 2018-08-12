@@ -8,9 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
+import com.example.pc.academy_app_tis.You_Tube_links;
 import com.example.pc.academy_app_tis.teacher.Feed_Adapter;
 import com.example.pc.academy_app_tis.teacher.Teacher_feed;
 import com.example.pc.academy_app_tis.teacher.Teacher_navigation;
+import com.example.pc.academy_app_tis.you_tube_adapter;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +32,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class students_feed extends AppCompatActivity implements  Feed_Adapter.Feed_AdapterOnClickHandler {
     RecyclerView recyclerView;
@@ -33,12 +44,81 @@ public class students_feed extends AppCompatActivity implements  Feed_Adapter.Fe
         setContentView(R.layout.activity_students_feed);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_101);
 
-        Background_getting_feed background_getting_feed=new Background_getting_feed();
-        background_getting_feed.execute();
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        adapter = new Feed_Adapter(students_feed.this);
+        recyclerView.setAdapter(adapter);
+
+        getting_feed();
+
+
     }
 
     @Override
     public void onClick(int x) {
+
+    }
+
+    void getting_feed()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("feed_table");
+        query.whereEqualTo("batch_subject",student_batch.subject_s);
+        query.whereEqualTo("batch_class",student_batch.class_s);
+        query.whereEqualTo("batch_number",student_batch.number_s);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(students_feed.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        int count = 0;
+
+
+                        int size=scoreList.size();
+                       String[] title_array = new String[size];
+                       String[] message_Array=new String[size];
+                       String[] fwion_array=new String[size];
+                        ArrayList<ParseFile> parseFiles = new ArrayList<ParseFile>(size);
+                        // file=new ArrayList<ParseFile>(size);
+                        while (count < scoreList.size()) {
+                            //JSONObject JO = jsonArray.getJSONObject(count);
+                            title_array[count] = scoreList.get(count).getString("title");
+                            message_Array[count] = scoreList.get(count).getString("message");
+                            fwion_array[count] = scoreList.get(count).getString("fwion");
+                            // description[count] = scoreList.get(count).getString("description");
+
+                            parseFiles.add(count, scoreList.get(count).getParseFile("image"));
+
+                            count++;
+
+
+                        }
+
+                        adapter.swapCursor(getApplicationContext(), title_array, message_Array,fwion_array,parseFiles);
+
+
+                        // Toast.makeText(Teacher_feed.this,scoreList.size()+"",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(students_feed.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+
 
     }
 
