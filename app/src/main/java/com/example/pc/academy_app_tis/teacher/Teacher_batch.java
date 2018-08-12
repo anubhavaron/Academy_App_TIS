@@ -22,6 +22,12 @@ import com.example.pc.academy_app_tis.head.Background_add_batch;
 import com.example.pc.academy_app_tis.head.Head_Batch;
 import com.example.pc.academy_app_tis.head.Head_Batch_Adapter;
 import com.example.pc.academy_app_tis.head.head_navigation;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +40,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapter.Head_Batch_AdapterOnClickHandler {
 
@@ -50,6 +57,11 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_batch);
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         recyclerView=(RecyclerView)findViewById(R.id.recycler_21);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -59,13 +71,60 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
 
 
         recyclerView.setAdapter(adapter);
-        Teacher_batch.Background_batch_details background_batch_details=new Teacher_batch.Background_batch_details();
-        background_batch_details.execute();
+        Background_details_of_batch();
     }
 
 
 
+    void Background_details_of_batch()
+    {
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("batch_table");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(Teacher_batch.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        int count=0;
+
+                        int size = scoreList.size();
+                        batch_subject = new String[size];
+                        batch_class = new String[size];
+                        batch_number = new String[size];
+                        while (count < size) {
+
+                            batch_subject[count] = scoreList.get(count).getString("batch_subject");
+                            batch_class[count] = scoreList.get(count).getString("batch_class");
+                            batch_number[count] = scoreList.get(count).getString("batch_number");
+
+
+                            count++;
+
+
+                        }
+                        if (batch_class != null) {
+                            adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
+                        }
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(Teacher_batch.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+    }
 
 
 
@@ -131,105 +190,4 @@ public class Teacher_batch extends AppCompatActivity implements Head_Batch_Adapt
     }
 
 
-
-
-
-
-
-
-
-
-
-    class Background_batch_details extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/head/batches_details.php";
-
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-
-            if(JSON_STRING!=null) {
-
-
-                try {
-                    jsonObject = new JSONObject(JSON_STRING);
-                    int count = 0;
-
-
-                    jsonArray = jsonObject.getJSONArray("server response");
-                    int size = jsonArray.length();
-                    batch_subject = new String[size];
-                    batch_class = new String[size];
-                    batch_number = new String[size];
-                    while (count < jsonArray.length()) {
-                        JSONObject JO = jsonArray.getJSONObject(count);
-                        batch_subject[count] = JO.getString("batch_subject");
-                        batch_class[count] = JO.getString("batch_class");
-                        batch_number[count] = JO.getString("batch_number");
-
-
-                        count++;
-
-
-                    }
-                    if (batch_class != null) {
-                        adapter.swapCursor(getApplicationContext(), batch_subject, batch_class, batch_number);
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            else
-            {
-                Toast.makeText(Teacher_batch.this,"No Internet",Toast.LENGTH_SHORT).show();
-            }
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
 }

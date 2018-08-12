@@ -2,6 +2,7 @@ package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +15,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.pc.academy_app_tis.R;
+import com.parse.GetDataCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 /**
  * Created by pc on 4/22/2018.
@@ -26,8 +33,8 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
 
 
     String name[];
-    String photoname[];
-
+   // String photoname[];
+ArrayList<ParseFile> parseFiles;
 
 
 
@@ -61,15 +68,27 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
         String x=name[position].substring(0,name[position].length()-2);
 
         holder.textView.setText(x);
-       String url="https://tisabcd12.000webhostapp.com/student/photos/"+photoname[position]+".jpg";
-        Glide.with(context)
-                .load(url) // image url
-               .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
-                .error(R.drawable.ic_people_black_24dp)  // any image in case of error
-                .override(100, 100) // resizing
-        //.centerCrop()
-        .into(holder.imageView);
-        holder.number.setText((position+1)+".");
+        holder.number.setText(position+1+"");
+
+        parseFiles.get(position).getDataInBackground(new GetDataCallback() {
+
+            @Override
+            public void done(byte[] data, ParseException e) {
+                if (e == null) {
+                    if(data==null) {
+                        // Toast.makeText(MainActivity.this, "HI", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        holder.imageView.setImageBitmap(bitmap);
+                    }
+
+                } else {
+                    //byteArray not retrieved from parseImage handle the exception
+
+                }
+            }
+        });
 
     }
 
@@ -112,13 +131,14 @@ public class Students_details_adapter extends RecyclerView.Adapter<Students_deta
 
         }
     }
-    public void swapCursor(Context context,String name[],String photoname[]) {
+    public void swapCursor(Context context, String name[], ArrayList<ParseFile> parseFiles) {
         // Always close the previous mCursor first
 
         if (name != null) {
             // Force the RecyclerView to refresh
             this.name=name;
-            this.photoname=photoname;
+           // this.photoname=photoname;
+            this.parseFiles=parseFiles;
 
             this.context=context;
             this.notifyDataSetChanged();

@@ -1,6 +1,8 @@
 package com.example.pc.academy_app_tis.teacher;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,9 @@ import com.bumptech.glide.Glide;
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.head.Students_details_adapter;
 import com.example.pc.academy_app_tis.head.head_navigation;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +33,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by pc on 4/28/2018.
@@ -39,6 +45,7 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
     String title[];
     String message[];
     String fwion[];
+    ArrayList<ParseFile> parseFiles;
 
 
 
@@ -69,40 +76,37 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
     }
 
     @Override
-    public void onBindViewHolder(Feed_Adapter.NUMBERVIEWHOLDER holder, int position) {
+    public void onBindViewHolder(final Feed_Adapter.NUMBERVIEWHOLDER holder, int position) {
 
 
         position=title.length-position-1;
-        if(position%2==0)
-        {
-           // holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
 
-
-
-
-
-        }
-        else
-        {
-
-           // holder.linearLayout.setBackgroundColor(Color.rgb(47,127,102));
-
-
-        }
         holder.title.setText(title[position]);
         holder.message.setText(message[position]);
 
 
         if(fwion[position].equals("YES"))
         {   holder.imageView.setVisibility(View.VISIBLE);
-            String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+title[position]+".jpg";
-            Glide.with(context)
-                    .load(url) // image url
-                    .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
-                    .error(R.drawable.ic_people_black_24dp)  // any image in case of error
-                    .override(200, 200) // resizing
-                    .centerCrop()
-                    .into(holder.imageView);
+
+            parseFiles.get(position).getDataInBackground(new GetDataCallback() {
+
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (e == null) {
+                        if(data==null) {
+                            // Toast.makeText(MainActivity.this, "HI", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            holder.imageView.setImageBitmap(bitmap);
+                        }
+
+                    } else {
+                        //byteArray not retrieved from parseImage handle the exception
+
+                    }
+                }
+            });
 
 
         }
@@ -156,13 +160,14 @@ public class Feed_Adapter extends RecyclerView.Adapter<Feed_Adapter.NUMBERVIEWHO
             mClickHandler.onClick(getAdapterPosition());
         }
     }
-    public void swapCursor(Context context,String title[],String message[],String fwion[]) {
+    public void swapCursor(Context context, String title[], String message[], String fwion[], ArrayList<ParseFile> parseFiles) {
         // Always close the previous mCursor first
         if (title != null) {
             // Force the RecyclerView to refresh
             this.title=title;
             this.message=message;
             this.fwion=fwion;
+            this.parseFiles=parseFiles;
             this.context=context;
             this.notifyDataSetChanged();
         }

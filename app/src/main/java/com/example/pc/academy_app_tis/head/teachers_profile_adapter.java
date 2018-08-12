@@ -2,6 +2,7 @@ package com.example.pc.academy_app_tis.head;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -17,6 +18,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.signature.StringSignature;
 import com.example.pc.academy_app_tis.R;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,7 +35,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
 
     String username[];
     String description[];
-    String photoname[];
+    ArrayList<ParseFile> parseFiles;
 
 
 
@@ -64,7 +70,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
 
         holder.name.setText(username[position]);
         holder.description.setText(description[position]);
-        String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+photoname[position]+".jpg";
+        //String url="https://tisabcd12.000webhostapp.com/teacher/photos/"+photoname[position]+".jpg";
         /*Glide.with(context)
                 .load(url) // image url
                 .placeholder(R.drawable.ic_people_black_24dp) // any placeholder to load at start
@@ -73,7 +79,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
                 .centerCrop()
                 .into(holder.imageView);*/
 
-        Glide.with(context).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.imageView) {
+        /*Glide.with(context).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.imageView) {
             @Override
             protected void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularBitmapDrawable =
@@ -81,8 +87,28 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
                 circularBitmapDrawable.setCircular(true);
                 holder.imageView.setImageDrawable(circularBitmapDrawable);
             }
-        });
+        });*/
+        parseFiles.get(position).getDataInBackground(new GetDataCallback() {
 
+            @Override
+            public void done(byte[] data, ParseException e) {
+                if (e == null) {
+                    if(data==null) {
+                        // Toast.makeText(MainActivity.this, "HI", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                      //  holder.imageView.setImageBitmap(bitmap);
+                        holder.circleImageView.setImageBitmap(bitmap);
+
+                    }
+
+                } else {
+                    //byteArray not retrieved from parseImage handle the exception
+
+                }
+            }
+        });
 
 
 
@@ -107,6 +133,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
         TextView description;
 
         ImageView imageView;
+        CircleImageView circleImageView;
         public NUMBERVIEWHOLDER(View view)
 
         {
@@ -115,6 +142,7 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
             name=(TextView)view.findViewById(R.id.teacher_name_8);
             description=(TextView)view.findViewById(R.id.description_8);
             imageView=(ImageView) view.findViewById(R.id.image_8);
+            circleImageView=(CircleImageView)view.findViewById(R.id.profile_image);
 
             itemView.setOnClickListener(this);
 
@@ -129,14 +157,15 @@ public class teachers_profile_adapter extends RecyclerView.Adapter<teachers_prof
             mClickHandler.onClick(getAdapterPosition());
         }
     }
-    public void swapCursor(Context context,String name[],String description[],String photoname[]) {
+    public void swapCursor(Context context, String name[], String description[], ArrayList<ParseFile> parseFiles) {
         // Always close the previous mCursor first
 
         if (name != null) {
             // Force the RecyclerView to refresh
             this.username=name;
             this.description=description;
-            this.photoname=photoname;
+           // this.photoname=photoname;
+            this.parseFiles=parseFiles;
 
 
             this.context=context;

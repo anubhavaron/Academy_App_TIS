@@ -164,12 +164,6 @@ public class Head_Batch extends AppCompatActivity implements Head_Batch_Adapter.
 
 
 
-
-
-
-
-
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -11,6 +11,13 @@ import android.widget.Toast;
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.head.Students_details_adapter;
 import com.example.pc.academy_app_tis.head.head_navigation;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +30,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Teachers_students extends AppCompatActivity implements  Students_details_adapter.Students_details_adapterOnClickHandler {
     Students_details_adapter adapter;
@@ -38,14 +47,75 @@ public class Teachers_students extends AppCompatActivity implements  Students_de
         recyclerView=(RecyclerView)findViewById(R.id.recycler_22);
 
 
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
+
 
         context=getApplicationContext();
-        Background_getting_students background_getting_students=new Background_getting_students();
-        background_getting_students.execute();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Teachers_students.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        adapter = new Students_details_adapter(Teachers_students.this);
+        recyclerView.setAdapter(adapter);
+        Background_students_details();
+
     }
 
     @Override
     public void onClick(int x) {
+
+    }
+
+
+    void Background_students_details()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("login_table");
+        query.whereEqualTo("batch_subject",Teacher_navigation.batch_subject);
+        query.whereEqualTo("batch_class",Teacher_navigation.batch_class);
+        query.whereEqualTo("batch_number",Teacher_navigation.batch_number);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(Teachers_students.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        int count = 0;
+
+
+                        //  jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        name = new String[size];
+                        ArrayList<ParseFile> parseFiles = new ArrayList<ParseFile>(size);
+                        // file=new ArrayList<ParseFile>(size);
+                        while (count < scoreList.size()) {
+                            //JSONObject JO = jsonArray.getJSONObject(count);
+                            name[count] = scoreList.get(count).getString("username");
+                            // description[count] = scoreList.get(count).getString("description");
+                            parseFiles.add(count,scoreList.get(count).getParseFile("image"));
+                            count++;
+
+
+                        }
+
+                        adapter.swapCursor(getApplicationContext(), name, parseFiles);
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(Teachers_students.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
     }
 
@@ -91,7 +161,7 @@ public class Teachers_students extends AppCompatActivity implements  Students_de
                     recyclerView.setHasFixedSize(true);
                     adapter = new Students_details_adapter(Teachers_students.this);
                     recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, name,photoname);
+                    //adapter.swapCursor(context, name,photoname);
 
 
                 } catch (JSONException e) {

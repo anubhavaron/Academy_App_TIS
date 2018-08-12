@@ -18,6 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.academy_app_tis.R;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class fees extends AppCompatActivity implements fees_adapter.fees_adapterOnClickHandler{
     String batch_subject;
@@ -60,6 +69,10 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fees);
+
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
 
         batch_subject=head_navigation.batch_subject;
@@ -91,16 +104,14 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
         cla.setText(batch_class);
         num.setText(batch_number);
         context=fees.this;
-        Background_getting_students background_getting_students=new Background_getting_students();
-        background_getting_students.execute();
+        getting_names();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linearLayout.setVisibility(View.VISIBLE);
                 view.setVisibility(View.VISIBLE);
-                Background_getting_previousfees background_getting_previousfees=new Background_getting_previousfees();
-                background_getting_previousfees.execute();
+                getting_previous_fees();
             }
         });
 
@@ -122,14 +133,26 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
                         add.setEnabled(false);
                         add.setVisibility(View.GONE);
 
-                        Background_add_fees background_add_fee=new Background_add_fees(fees.this);
+                        ParseObject gameScore = new ParseObject("fees_table");
 
-                       background_add_fee.execute(head_navigation.batch_subject,head_navigation.batch_class,head_navigation.batch_number,autoCompleteTextView.getText().toString(),sub.getText().toString(),cl.getText().toString(),n.getText().toString());
-
-
-
-                        Background_getting_previousfees background_getting_previousfees=new Background_getting_previousfees();
-                        background_getting_previousfees.execute();
+                        gameScore.put("username", autoCompleteTextView.getText().toString());
+                        gameScore.put("start_date", sub.getText().toString());
+                        gameScore.put("end_date",cl.getText().toString());
+                        gameScore.put("amount",n.getText().toString());
+                        gameScore.put("batch_class",head_navigation.batch_class);
+                        gameScore.put("batch_number",head_navigation.batch_number);
+                        gameScore.put("batch_subject",head_navigation.batch_subject);
+                        // gameScore.put("batch_number", n.getText().toString());
+                        //gameScore.put("subject_class_number", sub.getText().toString()+"_"+);
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(fees.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                                // Background_wall_of_fame_parse();
+                                // Background_details_of_batch();
+                                getting_previous_fees();
+                            }
+                        });
 
                     }
                 });
@@ -144,11 +167,57 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
         });
 
 
+    }
+    void getting_previous_fees()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("fees_table");
+        query.whereEqualTo("batch_subject",head_navigation.batch_subject);
+        query.whereEqualTo("batch_class",head_navigation.batch_class);
+        query.whereEqualTo("batch_number",head_navigation.batch_number);
+        query.whereEqualTo("username",autoCompleteTextView.getText().toString());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(fees.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+                        f_adapter.swapCursor(getApplicationContext(), null, null, null);
+
+                    }
+                    else {
+
+                        int count = 0;
+
+
+                        //jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        start_date = new String[size];
+                        end_date = new String[size];
+                        amount = new String[size];
+                        while (count < size) {
+
+                            start_date[count] = scoreList.get(count).getString("start_date");
+                            end_date[count] = scoreList.get(count).getString("end_date");
+                            amount[count] = scoreList.get(count).getString("amount");
+
+
+                            count++;
+
+
+                        }
+
+                        //Toast.makeText(getApplicationContext(), count + "         hello", Toast.LENGTH_LONG).show();
+                        f_adapter.swapCursor(getApplicationContext(), start_date, end_date, amount);
 
 
 
-
-
+                    }
+                } else {
+                    Toast.makeText(fees.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -156,201 +225,62 @@ public class fees extends AppCompatActivity implements fees_adapter.fees_adapter
 
     }
 
+    void getting_names()
+    {
 
-    class Background_getting_previousfees extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/head/getting_fees.php?batch_subject="+head_navigation.batch_subject+"&batch_class="+head_navigation.batch_class+"&batch_number="+head_navigation.batch_number+"&username="+autoCompleteTextView.getText().toString();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("login_table");
+        query.whereEqualTo("batch_subject",head_navigation.batch_subject);
+        query.whereEqualTo("batch_class",head_navigation.batch_class);
+        query.whereEqualTo("batch_number",head_navigation.batch_number);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
 
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(fees.this,"Nothing_Found",Toast.LENGTH_LONG).show();
 
+                    }
+                    else {
 
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
-
-            if(JSON_STRING!=null) {
-
-
-                try {
-                    jsonObject = new JSONObject(JSON_STRING);
-                    int count = 0;
+                        int count = 0;
+                        ArrayList<String> names = new ArrayList<String>();
 
 
-                    jsonArray = jsonObject.getJSONArray("server response");
-                    int size = jsonArray.length();
-                    start_date = new String[size];
-                    end_date = new String[size];
-                    amount = new String[size];
-                    while (count < jsonArray.length()) {
-                        JSONObject JO = jsonArray.getJSONObject(count);
-                        start_date[count] = JO.getString("start_date");
-                        end_date[count] = JO.getString("end_datet");
-                        amount[count] = JO.getString("amount");
+
+                        int size = scoreList.size();
+                        name = new String[size];
+                        while (count < size) {
+
+                            name[count] = scoreList.get(count).getString("username");
+                            names.add(name[count]);
+
+                            count++;
 
 
-                        count++;
+                        }
+
+
+                        arrayList = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, names);
+                        arrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        autoCompleteTextView.setAdapter(arrayList);
+
 
 
                     }
-
-                    //Toast.makeText(getApplicationContext(), count + "         hello", Toast.LENGTH_LONG).show();
-                    f_adapter.swapCursor(getApplicationContext(), start_date, end_date, amount);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(fees.this,"Connection_problem",Toast.LENGTH_LONG).show();
                 }
-
             }
-            else
-            {
-                Toast.makeText(fees.this,"No Internet",Toast.LENGTH_SHORT).show();
-            }
+        });
 
 
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
     }
 
 
 
 
-    class Background_getting_students extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/head/getting_students.php?batch_subject="+head_navigation.batch_subject+"&batch_class="+head_navigation.batch_class+"&batch_number="+head_navigation.batch_number;
-
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
 
 
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-            //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
-
-            if(JSON_STRING!=null) {
-
-
-                try {
-                    jsonObject = new JSONObject(JSON_STRING);
-                    int count = 0;
-                    names = new ArrayList<String>();
-
-
-                    jsonArray = jsonObject.getJSONArray("server response");
-                    int size = jsonArray.length();
-                    name = new String[size];
-                    while (count < jsonArray.length()) {
-                        JSONObject JO = jsonArray.getJSONObject(count);
-                        name[count] = JO.getString("username");
-                        names.add(name[count]);
-
-                        count++;
-
-
-                    }
-
-
-                    arrayList = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, names);
-                    arrayList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    autoCompleteTextView.setAdapter(arrayList);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-            else
-            {
-                Toast.makeText(fees.this,"No Internet",Toast.LENGTH_SHORT).show();
-            }
-
-
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
 
 }

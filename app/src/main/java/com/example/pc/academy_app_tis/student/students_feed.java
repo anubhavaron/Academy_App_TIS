@@ -87,7 +87,7 @@ public class students_feed extends AppCompatActivity implements  Feed_Adapter.Fe
                     recyclerView.setHasFixedSize(true);
                     adapter = new Feed_Adapter(students_feed.this);
                     recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(getApplicationContext(), title_array, message_Array, fwion_array);
+                  //  adapter.swapCursor(getApplicationContext(), title_array, message_Array, fwion_array);
 
 
                 } catch (JSONException e) {

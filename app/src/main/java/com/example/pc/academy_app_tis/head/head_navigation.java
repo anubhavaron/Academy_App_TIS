@@ -37,6 +37,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.You_Tube_links;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +60,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class head_navigation extends AppCompatActivity
@@ -72,12 +81,19 @@ public class head_navigation extends AppCompatActivity
     private final int IMG_REQUEST=1;
     Bitmap bitmap;
     String username_s;
+    ArrayList<ParseFile> parseFiles;
     private String UploadUrl="https://tisabcd12.000webhostapp.com/head/adding_login_students.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_head_navigation);
+
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -100,22 +116,13 @@ public class head_navigation extends AppCompatActivity
         batch_class=getIntent().getStringExtra("batch_class");
         batch_number=getIntent().getStringExtra("batch_number");
 
-     //   Toast.makeText(head_navigation.this,batch_subject+batch_class+batch_number,Toast.LENGTH_LONG).show();
         recyclerView=(RecyclerView)findViewById(R.id.recycler_6);
 
 
-        Background_getting_students background_getting_students=new Background_getting_students();
-        background_getting_students.execute();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //       .setAction("Action", null).show();
-
-
-
-
 
                 final AlertDialog.Builder mBuilder=new AlertDialog.Builder(head_navigation.this);
                 View mView=getLayoutInflater().inflate(R.layout.dialog_add_student,null);
@@ -134,20 +141,34 @@ public class head_navigation extends AppCompatActivity
                     public void onClick(View v) {
                         t_button.setEnabled(false);
                         t_button.setVisibility(View.GONE);
-
-
                         String name_s=t_name.getText().toString();
                         String number_s=t_description.getText().toString();
-                      username_s=name_s+number_s.substring(number_s.length()-2,number_s.length());
+                        username_s=name_s+number_s.substring(number_s.length()-2,number_s.length());
                         Toast.makeText(head_navigation.this,username_s,Toast.LENGTH_LONG).show();
+                        byte[] data = imageToSTring(bitmap);
+                        ParseFile file = new ParseFile("image", data);
 
-                        Background_adding_into_id_batch_table background_adding_into_id_batch_table=new Background_adding_into_id_batch_table(head_navigation.this);
-                        background_adding_into_id_batch_table.execute(head_navigation.batch_subject,head_navigation.batch_class,head_navigation.batch_number,username_s);
-                        Background_getting_students_info background_getting_students_info=new Background_getting_students_info();
-                        background_getting_students_info.execute();
-                        Background_getting_students background_getting_students=new Background_getting_students();
-                        background_getting_students.execute();
-                        //  uploadImage();
+                        ParseObject gameScore = new ParseObject("login_table");
+                        gameScore.put("image", file);
+                        gameScore.put("username", username_s);
+                        gameScore.put("password", username_s);
+                        gameScore.put("h_t_p_s","Student");
+                        gameScore.put("batch_subject",head_navigation.batch_subject);
+                        gameScore.put("batch_class",head_navigation.batch_class);
+                        gameScore.put("batch_number",head_navigation.batch_number);
+                        // gameScore.put("batch_number", n.getText().toString());
+                        //gameScore.put("subject_class_number", sub.getText().toString()+"_"+);
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(head_navigation.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                               // Background_wall_of_fame_parse();
+                                // Background_details_of_batch();
+                                Background_students_details();
+                            }
+                        });
+
+
                     }
                 });
 
@@ -164,25 +185,64 @@ public class head_navigation extends AppCompatActivity
 
 
 
+        LinearLayoutManager layoutManager=new LinearLayoutManager(head_navigation.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        adapter=new Students_details_adapter(head_navigation.this);
+        recyclerView.setAdapter(adapter);
+        Background_students_details();
 
 
 
+    }
+
+
+    void Background_students_details()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("login_table");
+        query.whereEqualTo("batch_subject",head_navigation.batch_subject);
+        query.whereEqualTo("batch_class",head_navigation.batch_class);
+        query.whereEqualTo("batch_number",head_navigation.batch_number);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(head_navigation.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+                        int count = 0;
+
+
+                        //  jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        name = new String[size];
+                        parseFiles = new ArrayList<ParseFile>(size);
+                       // file=new ArrayList<ParseFile>(size);
+                        while (count < scoreList.size()) {
+                            //JSONObject JO = jsonArray.getJSONObject(count);
+                            name[count] = scoreList.get(count).getString("username");
+                           // description[count] = scoreList.get(count).getString("description");
+                            parseFiles.add(count,scoreList.get(count).getParseFile("image"));
+                            count++;
+
+
+                        }
+
+                        adapter.swapCursor(getApplicationContext(), name, parseFiles);
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    }
+                } else {
+                    Toast.makeText(head_navigation.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
     }
@@ -270,250 +330,21 @@ public class head_navigation extends AppCompatActivity
 
 
 
-    class Background_getting_students extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/head/getting_students.php?batch_subject="+head_navigation.batch_subject+"&batch_class="+head_navigation.batch_class+"&batch_number="+head_navigation.batch_number;
 
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
 
 
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-           // Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
 
 
-            if(JSON_STRING!=null) {
 
 
-                try {
-                    jsonObject = new JSONObject(JSON_STRING);
-                    int count = 0;
 
-
-                    jsonArray = jsonObject.getJSONArray("server response");
-                    int size = jsonArray.length();
-                    name = new String[size];
-                    photoname=new String[size];
-                    while (count < jsonArray.length()) {
-                        JSONObject JO = jsonArray.getJSONObject(count);
-                        photoname[count] = JO.getString("username");
-                        name[count]=JO.getString("batch_subject");
-                        count++;
-
-
-                    }
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(head_navigation.this);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setHasFixedSize(true);
-                    adapter = new Students_details_adapter(head_navigation.this);
-                    recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, name,photoname);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            else
-            {
-                Toast.makeText(head_navigation.this,"No Internet",Toast.LENGTH_SHORT).show();
-            }
-
-
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
-
-    class Background_getting_students_info extends AsyncTask<Void,Void,String>
-    {   String json_url="https://tisabcd12.000webhostapp.com/head/getting_info_of_student.php?username="+username_s;
-
-        @Override
-        protected void onPreExecute() {
-            //   Toast.makeText(login_signup.this,"Hey",Toast.LENGTH_SHORT).show();
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected void onPostExecute(String JSON_STRING) {
-            JSONObject jsonObject;
-            JSONArray jsonArray;
-            //Toast.makeText(getApplicationContext(),JSON_STRING,Toast.LENGTH_LONG).show();
-
-            if (JSON_STRING != null) {
-
-
-                try {
-                    jsonObject = new JSONObject(JSON_STRING);
-                    int count = 0;
-
-
-                    jsonArray = jsonObject.getJSONArray("server response");
-                    int size = jsonArray.length();
-                    if (size > 0) {
-                        Toast.makeText(getApplicationContext(), "YES", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "No", Toast.LENGTH_LONG).show();
-                        uploadImage();
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            } else
-            {
-                Toast.makeText(head_navigation.this,"No Internet",Toast.LENGTH_SHORT).show();
-            }
-
-
-            super.onPostExecute(JSON_STRING);
-        }
-
-
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String json_string;
-            try {
-                URL url=new URL(json_url);
-                HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                while((json_string=bufferedReader.readLine())!=null)
-                {
-                    stringBuilder.append(json_string+"\n");
-
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-    }
-
-
-    private void uploadImage()
-    {
-
-
-
-        StringRequest stringRequest =new StringRequest(Request.Method.POST,UploadUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String Response=jsonObject.getString("response");
-                            Toast.makeText(head_navigation.this,Response,Toast.LENGTH_SHORT).show();
-                            Background_getting_students background_getting_students=new Background_getting_students();
-                            background_getting_students.execute();
-
-                           /* Intent i=new Intent(teachers_profile.this,teachers_profile.class);
-                            startActivity(i);*/
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(head_navigation.this,"Error",Toast.LENGTH_SHORT).show();
-                Background_getting_students background_getting_students=new Background_getting_students();
-                background_getting_students.execute();
-            }
-        })
-
-        {
-            @Override
-            protected Map<String , String> getParams() throws AuthFailureError
-            {
-                Map<String,String> params=new HashMap<>();
-                params.put("name",username_s);
-
-
-                params.put("image",imageToSTring(bitmap));
-                return params;
-
-
-            }
-        };
-        MySingleton.getInstance(head_navigation.this).addToRequestQueue(stringRequest);
-    }
-
-
-    private String imageToSTring(Bitmap bitmap)
+    private byte[] imageToSTring(Bitmap bitmap)
     {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] imgBytes=byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgBytes,Base64.DEFAULT);
-
+        //return Base64.encodeToString(imgBytes,Base64.DEFAULT);
+        return imgBytes;
     }
 
 

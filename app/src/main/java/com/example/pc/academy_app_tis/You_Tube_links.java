@@ -15,12 +15,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.pc.academy_app_tis.head.Head_Batch;
 import com.example.pc.academy_app_tis.student.Batch_Adapter;
 import com.example.pc.academy_app_tis.student.student_batch;
 import com.example.pc.academy_app_tis.student.student_fees_activity;
 import com.example.pc.academy_app_tis.teacher.Background_new_test_add;
 import com.example.pc.academy_app_tis.teacher.Teacher_navigation;
 import com.example.pc.academy_app_tis.teacher.Teacher_new_test;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +41,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class You_Tube_links extends AppCompatActivity implements you_tube_adapter.you_tube_adapterOnClickHandler {
     RecyclerView recyclerView;
@@ -43,9 +52,19 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_you__tube_links);
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         recyclerView=(RecyclerView)findViewById(R.id.recycler_110);
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_110);
-        new Background_getting_links().execute();
+       // new Background_getting_links().execute();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        adapter = new you_tube_adapter(You_Tube_links.this);
+        recyclerView.setAdapter(adapter);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
        // Toast.makeText(You_Tube_links.this,pref.getString("username", null),Toast.LENGTH_SHORT).show();
@@ -75,9 +94,19 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
                     public void onClick(View v) {
                         add.setEnabled(false);
                         add.setVisibility(View.GONE);
-                        Background_links background_new_test_add=new Background_links(You_Tube_links.this);
-                        background_new_test_add.execute(name.getText().toString(),link.getText().toString());
-                        new Background_getting_links().execute();
+                        ParseObject gameScore = new ParseObject("youtube_table");
+                        gameScore.put("name", name.getText().toString());
+                        gameScore.put("links", link.getText().toString());
+                        //gameScore.put("batch_number", n.getText().toString());
+                        //gameScore.put("subject_class_number", sub.getText().toString()+"_"+);
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(You_Tube_links.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                                Background_youtube_links();
+                            }
+                        });
+                       // new Background_getting_links().execute();
 
                    /*     Background_add_batch background_task_add_batches=new Background_add_batch(Head_Batch.this);
 
@@ -91,6 +120,59 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
                 dialog.show();
             }
         });
+        Background_youtube_links();
+
+    }
+
+    void Background_youtube_links()
+    {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("youtube_table");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(You_Tube_links.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+
+
+                        int count = 0;
+
+
+                       // jsonArray = jsonObject.getJSONArray("server response");
+                        int size = scoreList.size();
+                        String[] name = new String[size];
+                        links = new String[size];
+                        while (count < size) {
+                            //getJSONObject(count);
+                            name[count] = scoreList.get(count).getString("name");
+                            links[count] = scoreList.get(count).getString("links");
+
+                            count++;
+
+
+                        }
+
+                        adapter.swapCursor(getApplicationContext(), name);
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(You_Tube_links.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+
+
 
     }
 
@@ -100,7 +182,7 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
     }
 
 
-    class Background_getting_links extends AsyncTask<Void,Void,String>
+    /*class Background_getting_links extends AsyncTask<Void,Void,String>
     {   String json_url="https://tisabcd12.000webhostapp.com/you.php";
 
         @Override
@@ -192,5 +274,5 @@ public class You_Tube_links extends AppCompatActivity implements you_tube_adapte
 
             return null;
         }
-    }
+    }*/
 }

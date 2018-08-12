@@ -30,6 +30,14 @@ import com.bumptech.glide.Glide;
 import com.example.pc.academy_app_tis.MySingleton;
 import com.example.pc.academy_app_tis.R;
 import com.example.pc.academy_app_tis.student.student_test_records;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +51,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class teachers_profile extends AppCompatActivity implements teachers_profile_adapter.teachers_profile_adapterOnClickHandler {
@@ -60,6 +70,7 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
     ImageView t_imageView;
     Button t_button;
     Bitmap bitmap;
+    ArrayList<ParseFile> file;
     private String UploadUrl="https://tisabcd12.000webhostapp.com/head/Adding_teacher.php";
 
 
@@ -67,8 +78,13 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachers_profile);
+
+        Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+
         recyclerView=(RecyclerView)findViewById(R.id.recycler_9);
-        Glide.get(teachers_profile.this).clearMemory();
+      //  Glide.get(teachers_profile.this).clearMemory();
         floatingActionButton=(FloatingActionButton)findViewById(R.id.Floating_9);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -104,7 +120,30 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
                     public void onClick(View v) {
                         t_button.setEnabled(false);
                         t_button.setVisibility(View.GONE);
-                        uploadImage();
+
+                        byte[] data = imageToSTring(bitmap);
+                        ParseFile file = new ParseFile("image", data);
+
+                        ParseObject gameScore = new ParseObject("login_table");
+                        gameScore.put("image", file);
+                        gameScore.put("password",t_name.getText().toString().trim());
+                        gameScore.put("username", t_name.getText().toString().trim());
+                        gameScore.put("description",t_description.getText().toString().trim());
+                        gameScore.put("h_t_p_s", "Teacher");
+                        // gameScore.put("batch_number", n.getText().toString());
+                        //gameScore.put("subject_class_number", sub.getText().toString()+"_"+);
+                        gameScore.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(teachers_profile.this, "Item saved!", Toast.LENGTH_SHORT).show();
+                              //  Background_wall_of_fame_parse();
+                                // Background_details_of_batch();
+                                Background_teachers();
+                            }
+                        });
+
+
+                        //uploadImage();
                     }
                 });
 
@@ -118,12 +157,75 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
         });
         context=getApplicationContext();
 
-        Background_getting_teachers background_getting_teachers=new Background_getting_teachers();
-        background_getting_teachers.execute();
+       // Background_getting_teachers background_getting_teachers=new Background_getting_teachers();
+        //background_getting_teachers.execute();
+        Background_teachers();
     }
 
 
+    void Background_teachers()
+    {
 
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("login_table");
+        query.whereEqualTo("h_t_p_s","Teacher");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+
+                    if(scoreList.size()==0)
+                    {
+                        Toast.makeText(teachers_profile.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+
+                    }
+                    else {
+
+                        int count = 0;
+
+                        int size = scoreList.size();
+                        name = new String[size];
+                        description = new String[size];
+                        file=new ArrayList<ParseFile>(size);
+                        //photoname=new String[size];
+                        while (count < size) {
+
+                            name[count] = scoreList.get(count).getString("username");
+                            description[count] = scoreList.get(count).getString("description");
+                            file.add(count,scoreList.get(count).getParseFile("image"));
+                            count++;
+
+
+                        }
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(teachers_profile.this);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setHasFixedSize(true);
+                        adapter = new teachers_profile_adapter(teachers_profile.this);
+                        recyclerView.setAdapter(adapter);
+                        adapter.swapCursor(context, name, description,file);
+
+                        //  jsonArray = jsonObject.getJSONArray("server response");
+
+
+
+
+
+
+
+                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } else {
+                    Toast.makeText(teachers_profile.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+
+    }
     private void selectImage()
     {
         Intent intent=new Intent();
@@ -155,78 +257,17 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
 
 
 
-    private void uploadImage()
-    {
 
 
 
-        StringRequest stringRequest =new StringRequest(Request.Method.POST,UploadUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String Response=jsonObject.getString("response");
-                            Toast.makeText(teachers_profile.this,Response,Toast.LENGTH_SHORT).show();
-                            Background_getting_teachers background_getting_teachers=new Background_getting_teachers();
-                            background_getting_teachers.execute();
-                           /* Intent i=new Intent(teachers_profile.this,teachers_profile.class);
-                            startActivity(i);*/
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(teachers_profile.this,"Error",Toast.LENGTH_SHORT).show();
-            }
-        })
-
-        {
-            @Override
-            protected Map<String , String> getParams() throws AuthFailureError
-            {
-                Map<String,String> params=new HashMap<>();
-                params.put("name",t_name.getText().toString().trim());
-                params.put("description",t_description.getText().toString().trim());
-
-                params.put("image",imageToSTring(bitmap));
-                return params;
-
-
-            }
-        };
-        MySingleton.getInstance(teachers_profile.this).addToRequestQueue(stringRequest);
-    }
-
-
-    private String imageToSTring(Bitmap bitmap)
+    private byte[] imageToSTring(Bitmap bitmap)
     {
         ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] imgBytes=byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgBytes,Base64.DEFAULT);
+        return imgBytes;
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -276,7 +317,7 @@ public class teachers_profile extends AppCompatActivity implements teachers_prof
                     recyclerView.setHasFixedSize(true);
                     adapter = new teachers_profile_adapter(teachers_profile.this);
                     recyclerView.setAdapter(adapter);
-                    adapter.swapCursor(context, name, description,photoname);
+                    adapter.swapCursor(context, name, description,file);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
