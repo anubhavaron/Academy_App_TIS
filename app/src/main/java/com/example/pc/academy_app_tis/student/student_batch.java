@@ -100,7 +100,7 @@ public class student_batch extends AppCompatActivity implements Batch_Adapter.Ba
 
                         adapter.swapCursor(getApplicationContext(), batch_subject,batch_class,batch_number);
 
-                        // Toast.makeText(login_signup.this,"Found",Toast.LENGTH_LONG).show();
+                         Toast.makeText(student_batch.this,"Click to see Feed",Toast.LENGTH_LONG).show();
 
 
 

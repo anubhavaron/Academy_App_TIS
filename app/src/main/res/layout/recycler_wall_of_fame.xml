@@ -21,13 +21,13 @@
             android:background="@color/halke"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="330dp"
-                android:layout_height="330dp"
+                android:layout_width="300dp"
+                android:layout_height="280dp"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:id="@+id/image_view_26"
                 android:src="@drawable/wall_of_fame"
-
+                android:scaleType="fitXY"
                 android:padding="1.5dp"
                 android:background="@color/blue_dark"
                 />

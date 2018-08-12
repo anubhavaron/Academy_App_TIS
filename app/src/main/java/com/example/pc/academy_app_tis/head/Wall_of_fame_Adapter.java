@@ -59,7 +59,7 @@ public class Wall_of_fame_Adapter extends RecyclerView.Adapter<Wall_of_fame_Adap
     @Override
     public void onBindViewHolder(final Wall_of_fame_Adapter.NUMBERVIEWHOLDER holder, int position) {
 
-
+        position=title.length-position-1;
 
         holder.name.setText(title[position]);
         holder.description.setText(description[position]);

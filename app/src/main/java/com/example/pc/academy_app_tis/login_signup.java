@@ -104,7 +104,7 @@ public class login_signup extends Activity {
                 sub.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(login_signup.this,"f",Toast.LENGTH_SHORT).show();
+
                         String url = "http://www.facebook.com/anubhav.aron.7";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
@@ -114,7 +114,6 @@ public class login_signup extends Activity {
                 cl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                      //  Toast.makeText(login_signup.this,"g",Toast.LENGTH_SHORT).show();
 
                         String url = "http://www.github.com/anubhavaron";
                         Intent i = new Intent(Intent.ACTION_VIEW);
