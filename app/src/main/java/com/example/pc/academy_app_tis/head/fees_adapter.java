@@ -101,7 +101,7 @@ public class fees_adapter extends RecyclerView.Adapter<fees_adapter.NUMBERVIEWHO
     public void swapCursor(Context context,String batch_subject[],String batch_class[], String batch_number[]) {
         // Always close the previous mCursor first
 
-        if (batch_subject != null) {
+
             // Force the RecyclerView to refresh
             this.start_date=batch_subject;
             this.end_date=batch_class;
@@ -109,11 +109,8 @@ public class fees_adapter extends RecyclerView.Adapter<fees_adapter.NUMBERVIEWHO
 
             this.context=context;
             this.notifyDataSetChanged();
-        }
+
     }
-
-
-
 
 
 

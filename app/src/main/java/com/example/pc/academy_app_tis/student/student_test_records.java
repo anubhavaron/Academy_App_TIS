@@ -91,7 +91,7 @@ public class student_test_records extends AppCompatActivity implements Test_Mark
 
                             start_date[count] = scoreList.get(count).getString("batch_subject");
                             test_name[count] = scoreList.get(count).getString("test_name");
-                            marks[count] = Integer.toString(scoreList.get(count).getInt("marks_obtained"));
+                            marks[count] = scoreList.get(count).getString("Marks_obtained");
                             total[count] = scoreList.get(count).getString("total_marks");
 
 

@@ -59,6 +59,8 @@ public class login_signup extends Activity {
 
     String password;
 
+    Button atirek_login;
+
     String head_teacher_parent_student;
 
     RadioGroup radioGroup;
@@ -127,7 +129,7 @@ public class login_signup extends Activity {
                 dialog.show();
             }
         });
-
+        atirek_login=(Button)findViewById(R.id.login_2);
         radioGroup=(RadioGroup)findViewById(R.id.radiogroup);
         userName=(EditText)findViewById(R.id.username_2);
         passWord=(EditText)findViewById(R.id.password_2);
@@ -136,8 +138,11 @@ public class login_signup extends Activity {
 
     public void LOGIN(View view) {
 
+        atirek_login.setVisibility(View.INVISIBLE);
+
         if (radioGroup.getCheckedRadioButtonId() == -1)
         {   Toast.makeText(login_signup.this,"Choose (Head/Teacher/Student)",Toast.LENGTH_SHORT).show();
+            atirek_login.setVisibility(View.VISIBLE);
             // no radio buttons are checked
         }
         else
@@ -193,6 +198,7 @@ public class login_signup extends Activity {
                         if(scoreList.size()==0)
                         {
                             Toast.makeText(login_signup.this,"Nothing_Found",Toast.LENGTH_LONG).show();
+                            atirek_login.setVisibility(View.VISIBLE);
 
                         }
                         else {
@@ -249,6 +255,7 @@ public class login_signup extends Activity {
                         }
                 } else {
                     Toast.makeText(login_signup.this,"Connection_problem",Toast.LENGTH_LONG).show();
+                    atirek_login.setVisibility(View.VISIBLE);
                 }
             }
         });

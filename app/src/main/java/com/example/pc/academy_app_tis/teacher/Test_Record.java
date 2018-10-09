@@ -106,7 +106,7 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
                         gameScore.put("batch_class", Teacher_navigation.batch_class);
                         gameScore.put("batch_number", Teacher_navigation.batch_number);
                         gameScore.put("total_marks", test_marks);
-                        gameScore.put("marks_obtained", Integer.parseInt(cl.getText().toString()));
+                        gameScore.put("Marks_obtained", cl.getText().toString());
 
 
 
@@ -148,7 +148,7 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
         query.whereEqualTo("batch_class",Teacher_navigation.batch_class);
         query.whereEqualTo("batch_number",Teacher_navigation.batch_number);
         query.whereEqualTo("test_name",test_name);
-        query.orderByDescending("marks_obtained");
+       // query.orderByDescending("marks_obtained");
 
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, ParseException e) {
@@ -173,7 +173,7 @@ public class Test_Record extends AppCompatActivity implements Test_record_adapte
                         while (count < size) {
 
                             username[count] = scoreList.get(count).getString("username");
-                            marks[count] = Integer.toString(scoreList.get(count).getInt("marks_obtained"));
+                            marks[count] = scoreList.get(count).getString("Marks_obtained");
                             //amount[count] = scoreList.get(count).getString("amount");
 
 

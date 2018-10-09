@@ -41,7 +41,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class Teacher_new_test extends AppCompatActivity implements  new_test_adapter.new_test_adapterOnClickHandler {
+public class  Teacher_new_test extends AppCompatActivity implements  new_test_adapter.new_test_adapterOnClickHandler {
     String test_name[];
     String test_marks[];
     new_test_adapter adapter;
