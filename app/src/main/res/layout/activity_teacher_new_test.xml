@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.academy_app_tis.teacher.Teacher_new_test"
+    tools:context="com.TIS.teacher.Teacher_new_test"
     android:orientation="vertical">
     <View
         android:layout_width="match_parent"

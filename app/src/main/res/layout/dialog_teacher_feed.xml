@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter Text Here"
+            android:text="Enter Title Here"
             android:textColor="#003f77"
             android:textStyle="bold"
             android:paddingLeft="5dp"/>

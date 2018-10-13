@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.example.pc.academy_app_tis.teacher.Teacher_feed"
+    tools:context="com.TIS.teacher.Teacher_feed"
     android:orientation="vertical">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

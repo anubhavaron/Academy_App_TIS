@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.academy_app_tis.student.student_fees_activity">
+    tools:context="com.TIS.student.student_fees_activity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/halke"
-        tools:context="com.example.pc.academy_app_tis.head.fees">
+        tools:context="com.TIS.head.fees">
 
         <LinearLayout
             android:layout_width="match_parent"

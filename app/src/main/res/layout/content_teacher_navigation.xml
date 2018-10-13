@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.pc.academy_app_tis.student.Student_Navigation"
+    tools:context="com.TIS.student.Student_Navigation"
     tools:showIn="@layout/app_bar_student__navigation"
     android:background="@color/halke"
     >
@@ -62,24 +62,9 @@
 
                 android:textStyle="bold|italic"
 
-                android:text="The passion of teaching is the only reason which inspired Mr. Shivanand
-Tiwari to lay the foundation of Tiwari Institute of Studies (TIS) in year
-2008.\n\n
-At the outset, the vision of TIS had been to become an institute that
-could overcome the challenges posed by society in the field of
-education.\n\n
-TIS believes in imparting value based education. We think the education
-which does not lead to holistic development of a student is incomplete.
-We have been working diligently to achieve this aim.\n\n
-Innovation and value based education is the bedrock of our
-institution.TIS adopts innovative pedagogy to help students in
-comprehending complex concepts in an easy way. TIS has been
-instrumental in grooming students who are curious of learning. TIS is
-striving to implant the seeds of universal knowledge that is applicable
-across cultures and across times. Students are the greatest asset of
-TIS, their dream is our inspiration and their destination is our goal. We
-dedicate our success to our students and wish them successful
-academic years ahead."/>
+                android:text="The passion of teaching was the only reason which inspired “Mr.Shivanand Tiwari” to laid the foundation of “Tiwari Institute of Studies (TIS)” in year 2008.The vision of TIS has been to become an institute that could overcome the challenges posed by society in the field of education. We think the education which does not lead to holistic development of a student is incomplete.\n\n
+Innovation and value based education is the bedrock of our institute. TIS adopts innovative pedagogy to help students in comprehending complex concepts in an easy way. TIS has been instrumental in grooming students who are curious of learning.\n\n
+TIS is striving to implant the seeds of universal knowledge that is applicable across cultures and across times. Students are the greatest asset of TIS, their dreams are our inspiration and their destination is our goal. We dedicate our success to all our students and teachers and also wish them a successful life ahead.\n"/>
 
 
 

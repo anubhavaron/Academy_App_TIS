@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.academy_app_tis.teacher.Test_Record">
+    tools:context="com.TIS.teacher.Test_Record">
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.academy_app_tis.MainActivity"
+    tools:context="com.TIS.MainActivity"
     android:background="@drawable/books_simple"
     >
 

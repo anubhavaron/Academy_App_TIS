@@ -6,7 +6,7 @@
     android:paddingRight="4dp"
     android:paddingTop="3dp"
     android:paddingBottom="0.3dp"
-    android:background="#668c18"
+    android:background="#45610b"
 
 
 
@@ -27,10 +27,10 @@
             android:id="@+id/linear_layout_43"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="320dp"
+                android:layout_height="320dp"
                 android:padding="2dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="#000000"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:layout_marginTop="3dp"
@@ -42,13 +42,17 @@
                 android:text="TITLE"
                 android:layout_marginTop="5dp"
                 android:textStyle="bold"
+
+                android:gravity="center"
                 android:id="@+id/title_43"
-                android:textColor="@color/blue_dark"
+                android:textColor="#4E342E"
                 android:textSize="25dp"
 
                 android:layout_gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue_dark"
                 android:text="Message"

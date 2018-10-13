@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/halke"
     android:orientation="vertical"
-    tools:context="com.example.pc.academy_app_tis.student.student_test_records">
+    tools:context="com.TIS.student.student_test_records">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

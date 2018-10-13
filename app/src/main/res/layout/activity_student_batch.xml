@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/halke"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.academy_app_tis.student.student_batch">
+    tools:context="com.TIS.student.student_batch">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

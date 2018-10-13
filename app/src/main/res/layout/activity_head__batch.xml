@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.academy_app_tis.head.Head_Batch"
+    tools:context="com.TIS.head.Head_Batch"
     android:background="#f3ffdb">
 
     <android.support.v7.widget.RecyclerView
